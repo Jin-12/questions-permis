@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Questions du permis B</title>
+<meta name="description" content="Apprends et révise gratuitement les 100 questions orales de l'examen pratique du permis B, puis passe un examen blanc avec tirage au compteur kilométrique.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230B4CA0'/%3E%3Ctext x='32' y='46' font-family='Arial' font-weight='700' font-size='40' text-anchor='middle' fill='white'%3EB%3C/text%3E%3C/svg%3E">
+<style>
+/* Concept : un panneau d'autoroute (bleu, texte blanc) et un compteur kilométrique qui tire la question du jour. */
+:root{
+  --bg:#EDF0F3; --surface:#FFFFFF; --surface-2:#F5F7F9; --ink:#13202D; --muted:#53636F; --line:#D3DAE2;
+  --accent:#0B4CA0; --accent-ink:#FFFFFF; --accent-soft:#E1ECFA;
+  --good:#1D7A4B; --good-soft:#DDF0E5; --warn:#A85A00; --warn-soft:#F8EAD3; --bad:#B8322A; --bad-soft:#F7DEDB;
+  --odo-bg:#101820; --odo-fg:#F4F6F8; --odo-hot:#F29A1F; --odo-hot-ink:#1A1204;
+  --font-display:'Arial Narrow','Roboto Condensed','Helvetica Neue',Arial,sans-serif;
+  --font-body:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D151E; --surface:#16212D; --surface-2:#1B2938; --ink:#E6ECF2; --muted:#9BABBA; --line:#283849;
+    --accent:#7DB0FF; --accent-ink:#071A33; --accent-soft:#17304F;
+    --good:#5CCB92; --good-soft:#143626; --warn:#F0A64A; --warn-soft:#3A2A10; --bad:#F08A82; --bad-soft:#3E1B18;
+    --odo-bg:#05090E; --odo-fg:#F4F6F8; --odo-hot:#F29A1F; --odo-hot-ink:#1A1204;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D151E; --surface:#16212D; --surface-2:#1B2938; --ink:#E6ECF2; --muted:#9BABBA; --line:#283849;
+  --accent:#7DB0FF; --accent-ink:#071A33; --accent-soft:#17304F;
+  --good:#5CCB92; --good-soft:#143626; --warn:#F0A64A; --warn-soft:#3A2A10; --bad:#F08A82; --bad-soft:#3E1B18;
+  --odo-bg:#05090E; --odo-fg:#F4F6F8; --odo-hot:#F29A1F; --odo-hot-ink:#1A1204;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.5;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:760px;margin-inline:auto}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:.01em}
+p{margin:0}
+
+/* En-tête et navigation */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px 10px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.top-in{max-width:760px;margin-inline:auto;display:flex;flex-direction:column;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.sign{background:var(--accent);color:var(--accent-ink);font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:.04em;padding:2px 10px;border-radius:6px;border:2px solid var(--accent-ink);box-shadow:0 0 0 2px var(--accent)}
+.brand span.t{font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:.02em}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tab{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 4px;font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:.02em;line-height:1.1;text-align:center}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+main{padding-top:20px;display:flex;flex-direction:column;gap:20px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.lead{font-size:19px;color:var(--ink)}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.label{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-size:44px}
+h2{font-size:28px}
+h3{font-size:22px}
+
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px 16px;font-weight:700;min-height:44px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Compteur */
+.odo{display:inline-flex;align-items:center;gap:5px;background:var(--odo-bg);padding:12px 14px;border-radius:10px;align-self:flex-start;max-width:100%}
+.odo .d{font-family:var(--font-mono);font-weight:600;font-size:34px;line-height:1;width:34px;height:48px;display:grid;place-items:center;background:#1E2A36;color:var(--odo-fg);border-radius:5px;border-bottom:2px solid #000}
+.odo .d.hot{background:var(--odo-hot);color:var(--odo-hot-ink)}
+.odo small{font-family:var(--font-mono);color:#8FA2B3;margin-left:6px;font-size:14px}
+@media (max-width:420px){.odo .d{width:28px;height:42px;font-size:28px}.odo{padding:10px}}
+
+/* Chiffres clés */
+.keys{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.key{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.key b{font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--accent)}
+.key span{font-size:15px}
+.steps{display:flex;flex-direction:column;gap:8px;padding:0;margin:0;list-style:none}
+.steps li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.steps .n{font-family:var(--font-display);font-weight:700;font-size:20px;background:var(--accent-soft);color:var(--accent);border-radius:8px;display:grid;place-items:center;height:34px}
+ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+
+/* Progression */
+.bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--line)}
+.bar i{display:block;height:100%}
+.bar .b-done{background:var(--good)}.bar .b-wip{background:var(--warn)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.legend b{color:var(--ink);font-variant-numeric:tabular-nums}
+.deck{display:flex;flex-direction:column;gap:10px}
+.chap{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:10px}
+.chap>div{min-width:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:15px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-color:transparent}
+
+/* Carte d'étude */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.qn{font-family:var(--font-mono);font-size:13px;color:var(--muted)}
+.q{font-size:30px;line-height:1.15}
+.ans{background:var(--accent-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:18px}
+.ans .why{font-size:16px;margin:0}.note{font-size:14px;color:var(--warn);background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:0}.ans .tip{font-size:15px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.grades{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.grades.two{grid-template-columns:repeat(2,1fr)}
+.g{border-radius:10px;border:2px solid var(--line);background:var(--surface);padding:10px 6px;font-weight:700;min-height:48px;line-height:1.2}
+.g.g1{border-color:var(--bad);color:var(--bad)}
+.g.g2{border-color:var(--warn);color:var(--warn)}
+.g.g3{border-color:var(--good);color:var(--good)}
+.g kbd{font-family:var(--font-mono);font-size:12px;opacity:.7;margin-left:4px}
+.prog{display:flex;align-items:center;gap:12px}
+.prog .bar{flex:1}
+.score{font-family:var(--font-mono);font-size:54px;font-weight:600}
+.res{display:flex;flex-direction:column;gap:8px;padding:0;margin:0;list-style:none}
+.res li{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.res .ok{border-color:var(--good);background:var(--good-soft)}
+.res .ko{border-color:var(--bad);background:var(--bad-soft)}
+.input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:96px;min-height:44px;font-family:var(--font-mono)}
+.foot{font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.foot a{color:var(--accent)}
+@media (prefers-reduced-motion:no-preference){.card,.panel{animation:rise .18s ease-out}@keyframes rise{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}}
+@media (max-width:420px){h1{font-size:38px}.q{font-size:26px}.tab{font-size:16px}}
+
+.figs{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;border-top:1px solid var(--line);padding-top:14px}
+.fig{margin:0;display:flex;flex-direction:column;gap:6px;align-items:center;width:132px}
+.fig.wide{width:min(100%,430px);align-items:stretch}
+.ic{color:var(--ink)}.ic.red{color:var(--bad)}.ic.warn{color:var(--warn)}.ic.blue{color:var(--accent)}
+figcaption{font-size:14px;color:var(--muted);text-align:center;line-height:1.35}
+.dg{width:100%;height:auto;display:block}
+.dz{fill:var(--surface-2);stroke:var(--muted);stroke-width:1.5}.dz.hl{fill:var(--accent-soft);stroke:var(--accent);stroke-width:3}
+.bgz{fill:var(--bg);stroke:var(--line);stroke-width:1.5}.sub{fill:none;stroke:var(--line);stroke-width:1.5}.sp{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+.dl{font:600 12px var(--font-body);fill:var(--muted)}.dl.hl{fill:var(--accent)}
+
+.tabs{grid-template-columns:repeat(4,1fr)}
+.tab{padding:8px 2px;font-size:17px}
+@media (max-width:420px){.tab{font-size:15px}}
+
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="brand"><span class="sign">B</span><span class="t">Questions du permis</span></div>
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+</div></header>
+<div class="wrap"><main id="app"></main></div>
+
+<script>
+/*DATA*/
+const DECKS={vi:{name:"Vérifications intérieures",short:"Intérieur"},ve:{name:"Vérifications extérieures",short:"Extérieur"},sr:{name:"Sécurité routière",short:"Sécurité routière"},pp:{name:"Premiers secours",short:"Premiers secours"}};
+const RAW={
+vi:[
+[1,[1,65],"Montrez la commande de réglage de hauteur des feux.","Molette ou bouton situé en général à gauche du volant.","Ce réglage sert à ne pas éblouir les autres usagers, surtout quand la voiture est chargée."],
+[2,[3,67],"Mettez le rétroviseur intérieur en position « nuit ».","Bascule le petit levier sous le rétroviseur. Si le véhicule a un système automatique, tu l'indiques. Si le rétroviseur de l'accompagnateur gêne, l'explication suffit.","Intérêt : ne pas être ébloui par les feux du véhicule qui te suit."],
+[3,[5,69],"Faites fonctionner les essuie-glaces avant sur la position la plus rapide.","Utilise la commande à droite du volant, sur la position la plus rapide.","Usure détectée sous la pluie : traces sur le pare-brise."],
+[4,[7,71],"Vérifiez la présence du gilet de haute visibilité.","Tu indiques où il se trouve, sans obligation de le sortir. L'examinateur peut dire « gilet jaune » si le terme n'est pas compris.","Il se porte avant de quitter le véhicule en cas de panne ou d'accident."],
+[5,[9],"Vérifiez la présence du certificat d'immatriculation (carte grise).","Généralement dans la boîte à gants. La photocopie est acceptée.","Question neutralisée depuis avril 2024 : elle n'est plus posée à l'examen."],
+[6,[11],"Montrez l'indicateur du niveau de carburant.","La jauge de carburant, sur le tableau de bord (repère en forme de pompe).",""],
+[7,[13,73],"Activez le dégivrage de la lunette arrière et montrez le voyant ou le repère correspondant.","Appuie sur le bouton de dégivrage arrière, puis montre son voyant ou son repère.","Sans dégivrage : visibilité insuffisante ou absente vers l'arrière."],
+[8,[15,75],"Montrez le voyant d'alerte signalant une pression insuffisante d'huile dans le moteur.","Mets le contact, puis montre le voyant correspondant sur le tableau de bord.","Contact mis, les voyants s'allument : c'est ce qui te permet de les montrer."],
+[9,[17,77],"Vérifiez la présence de l'éthylotest.","Généralement dans la boîte à gants. Il n'est plus obligatoire dans le véhicule : si la voiture n'en a pas, l'inspecteur peut neutraliser la question.","L'éthylotest chimique n'est plus obligatoire dans les véhicules depuis 2020."],
+[10,[19],"Montrez la commande de réglage du volant.","Tu montres l'emplacement de la commande. Il ne t'est pas demandé de changer ton réglage.","Un volant bien réglé : confort, commandes accessibles, tableau de bord visible, airbag efficace."],
+[11,[21,79],"Positionnez la commande pour diriger l'air vers le pare-brise.","Place la commande de répartition d'air sur le repère pare-brise. La position auto (désembuage automatique) peut être utilisée si le véhicule en est équipé.","Pour désembuer efficacement, ajoute ventilation, air chaud ou climatisation."],
+[12,[23],"Montrez le voyant d'alerte signalant un défaut de batterie.","Mets le contact, puis montre le voyant correspondant sur le tableau de bord.",""],
+[13,[25,55,81],"De quelle couleur est le voyant qui indique une défaillance du système de freinage ?","Rouge. Mets le contact et montre le voyant sur le tableau de bord.","Rouge : anomalie ou danger. Orange : élément important."],
+[14,[27,83],"Montrez le voyant d'alerte signalant une température trop élevée du liquide de refroidissement.","Mets le contact, puis montre le voyant correspondant sur le tableau de bord.","Conséquence d'une température trop élevée : surchauffe ou casse du moteur."],
+[15,[29],"Montrez le voyant signalant la mauvaise fermeture d'une portière.","Montre le voyant correspondant sur le tableau de bord.",""],
+[16,[31,85],"Actionnez les feux de détresse.","Appuie sur le bouton des feux de détresse (pictogramme triangle).","Usage : panne, accident ou ralentissement important."],
+[17,[33],"Montrez la commande permettant d'actionner le régulateur de vitesse.","Tu montres la commande, dont la forme dépend du modèle. Question neutralisée si le véhicule n'en a pas.","Pour le couper vite sans toucher à la commande : pédale de frein ou d'embrayage."],
+[18,[35],"Sans l'actionner, montrez la commande de l'avertisseur sonore.","Tu la montres sans appuyer (en général au centre du volant).","En agglomération : seulement en cas de danger immédiat."],
+[19,[37,87],"Montrez la commande permettant de désactiver l'airbag du passager avant.","Tu montres la commande de désactivation, dont l'emplacement dépend du modèle.","À désactiver pour un enfant dans un siège auto installé dos à la route."],
+[20,[39,89],"Montrez le voyant signalant l'absence de bouclage de la ceinture de sécurité conducteur.","Montre le voyant ceinture sur le tableau de bord.",""],
+[21,[41],"Vérifiez la présence de l'attestation d'assurance du véhicule et de sa vignette sur le pare-brise.","Attestation généralement dans la boîte à gants, vignette sur le pare-brise.","Question neutralisée depuis avril 2024 : elle n'est plus posée à l'examen."],
+[22,[43,91],"Allumez le ou les feux de brouillard arrière et montrez le voyant correspondant.","Allume les feux de brouillard arrière, puis montre le voyant (orange).","Interdit par forte pluie. Réservé au brouillard et à la neige."],
+[23,[45],"Montrez comment régler la hauteur de l'appuie-tête du siège conducteur.","Tu montres le réglage en hauteur de l'appuie-tête.","Il retient le mouvement de la tête en cas de choc et limite les blessures."],
+[24,[47],"De quelle couleur est le voyant qui indique au conducteur que le feu de brouillard arrière est allumé ?","Orange.","Orange : élément important. Rouge : anomalie ou danger."],
+[25,[49,93],"Montrez la commande de recyclage de l'air.","Tu montres la commande de recyclage (pictogramme de voiture avec flèche en boucle).","Recyclage trop long : buée sur les vitres, donc mauvaise visibilité."],
+[26,[51,95],"Allumez les feux de route et montrez le voyant correspondant.","Allume les feux de route, puis montre le voyant (bleu).","Risque si tu les gardes en croisant : éblouir les autres usagers."],
+[27,[53],"Vérifiez la présence du constat amiable dans la voiture.","Généralement dans la boîte à gants.","Après un accident, il part à l'assureur sous 5 jours."],
+[28,[57],"Si le véhicule en est équipé, montrez la commande du limiteur de vitesse.","Tu montres la commande, dont la forme dépend du modèle.","Il évite de dépasser la vitesse programmée par le conducteur."],
+[29,[59,97],"Faites fonctionner l'essuie-glace arrière du véhicule.","Actionne la commande de l'essuie-glace arrière.","Par temps de pluie, ajoute le désembuage arrière pour bien voir derrière."],
+[30,[61],"Indiquez où se situent les attaches de type Isofix dans le véhicule.","Aux places arrière, entre l'assise et le dossier de la banquette.","Tous les sièges enfants ne sont pas compatibles Isofix."],
+[31,[63,99],"Montrez sur le tableau de bord le voyant indiquant une baisse de pression d'air des pneus.","Montre le voyant de pression des pneus sur le tableau de bord.","Pression des pneus à vérifier tous les mois."]
+],
+ve:[
+[1,[2,50],"Montrez où s'effectue le remplissage du produit lave-glace.","Ouvre le capot et montre le bocal et son orifice. Si l'ouverture te pose problème, l'accompagnateur peut t'indiquer comment faire.","En hiver, un liquide spécial évite le gel."],
+[2,[4,68],"Contrôlez l'état du flanc d'un pneumatique.","Flanc en bon état : ni déchirure, ni hernie. Toute anomalie doit être signalée.",""],
+[3,[6],"Vérifiez l'état et la propreté des plaques d'immatriculation.","Plaques avant et arrière : propres, lisibles et en bon état. Toute anomalie est signalée.",""],
+[4,[8,70],"Montrez où s'effectue le contrôle du niveau du liquide de frein.","Sous le capot : tu montres que le niveau est entre le mini et le maxi. L'accompagnateur peut t'aider à ouvrir le capot.","Niveau insuffisant : perte d'efficacité du freinage."],
+[5,[10],"Contrôlez l'état de tous les balais d'essuie-glace du véhicule.","Prends les balais d'essuie-glace en main et vérifie leur état.","Balais défectueux : mauvaise visibilité en cas d'intempéries."],
+[6,[12,72],"Montrez où s'effectue le remplissage du liquide de refroidissement.","Sous le capot : tu montres le vase et son bouchon de remplissage.","Ne jamais compléter moteur chaud : risque de brûlure."],
+[7,[14,74],"Contrôlez l'état, la propreté et le fonctionnement de tous les clignotants côté trottoir.","Active les clignotants : propres, en bon état, ils fonctionnent. Toute anomalie est signalée.","Clignotement plus rapide : une ampoule ne fonctionne pas."],
+[8,[16],"Contrôlez l'état, la propreté et le fonctionnement du ou des feux de brouillard arrière.","Allume les feux : propres, en bon état de fonctionnement. Toute anomalie est signalée.","Usage : brouillard et neige."],
+[9,[18,76],"Contrôlez l'état, la propreté et le fonctionnement des feux de détresse à l'avant et à l'arrière.","Allume les feux de détresse : propres, en bon état de fonctionnement. Toute anomalie est signalée.","Usage : panne, accident, ralentissement important."],
+[10,[20,78],"Contrôlez l'état, la propreté et le fonctionnement des feux de route.","Allume les feux de route : propres, en bon état de fonctionnement. Toute anomalie est signalée.",""],
+[11,[22,80],"Montrez où doit s'effectuer le contrôle du niveau d'huile moteur.","Tu montres la jauge. Aucune manipulation n'est exigée. L'accompagnateur peut t'aider à ouvrir le capot.","Contrôle : moteur froid et terrain plat."],
+[12,[24],"Montrez l'emplacement de la batterie du véhicule.","Ouvre le capot et montre la batterie.",""],
+[13,[26,82],"Contrôlez l'état, la propreté et le fonctionnement des feux de croisement.","Allume les feux de croisement : propres, en bon état de fonctionnement. Toute anomalie est signalée.","Mal réglés : mauvaise vision et éblouissement des autres."],
+[14,[28],"Vérifiez l'état et la propreté des dispositifs réfléchissants.","Tu vérifies les dispositifs : propres et en bon état. Toute anomalie est signalée.","Ils rendent le véhicule visible la nuit."],
+[15,[30],"Contrôlez l'état, la propreté et le fonctionnement des feux de position à l'avant et à l'arrière.","Vérifie les feux : propres, en bon état de fonctionnement. Toute anomalie est signalée.","Visibles à 150 m par temps clair."],
+[16,[32,84],"Sur le flanc d'un pneu, désignez le repère du témoin d'usure de la bande de roulement.","Tu désignes le repère placé sur le flanc, qui indique où se trouve le témoin d'usure.","Aquaplanage : film d'eau entre le pneu et la route, perte de contrôle possible."],
+[17,[34],"Ouvrez la trappe à carburant et/ou vérifiez la bonne fermeture du bouchon.","Ouvre la trappe et vérifie que le bouchon est bien fermé.","Au remplissage : moteur arrêté, ne pas fumer, ne pas téléphoner."],
+[18,[36],"Montrez où s'effectue le remplissage de l'huile moteur.","Ouvre le capot et montre le bouchon de remplissage.","Manque d'huile : détérioration ou casse du moteur."],
+[19,[38,86],"À l'aide de la plaque indicative, donnez la pression préconisée pour les pneumatiques arrière, véhicule chargé.","Tu lis la valeur sur la plaque indicative, ligne arrière, colonne « chargé ».","La pression se trouve aussi dans la notice ou à la trappe à carburant. À contrôler chaque mois."],
+[20,[40],"Vérifiez le fonctionnement de l'éclairage de la plaque d'immatriculation à l'arrière.","Éclairage en bon état, plaque propre et lisible. Toute anomalie est signalée.","Un défaut au contrôle technique entraîne une contre-visite."],
+[21,[42,88],"Indiquez où se situe la sécurité enfant sur l'une des portières arrière du véhicule.","Tu montres le dispositif de sécurité enfant d'une portière arrière.","Même enclenchée, la portière s'ouvre de l'extérieur."],
+[22,[44],"Avec l'assistance de l'accompagnateur, contrôlez l'état, la propreté et le fonctionnement du ou des feux de recul.","Demande à l'accompagnateur d'enclencher la marche arrière : feux propres, en bon état de fonctionnement.","Utilité : éclairer la zone de recul la nuit et avertir les autres usagers."],
+[23,[46,90],"Avec l'assistance de l'accompagnateur, contrôlez l'état, la propreté et le fonctionnement du ou des feux stop.","Demande à l'accompagnateur d'appuyer sur la pédale de frein : feux propres, en bon état de fonctionnement.","Panne : manque d'information pour ceux qui suivent, risque de collision."],
+[24,[48,64],"Ouvrez et refermez le capot, puis vérifiez sa bonne fermeture.","Ouvre, referme et vérifie le verrouillage.","Mal fermé, il peut s'ouvrir en roulant et provoquer un accident."],
+[25,[52,92],"Vérifiez l'état, la propreté et le fonctionnement des feux diurnes.","Vérifie les feux : propres, en bon état de fonctionnement. Toute anomalie est signalée.","Ils rendent le véhicule plus visible le jour."],
+[26,[54,94],"Vérifiez la présence du triangle de pré-signalisation.","Tu indiques où il se trouve (souvent dans le coffre).","Jamais sur autoroute. Ailleurs : à environ 30 m."],
+[27,[56,96],"Montrez où s'effectue le changement d'une ampoule à l'avant du véhicule.","Sous le capot.",""],
+[28,[58,98],"Montrez où s'effectue le changement d'une ampoule à l'arrière du véhicule.","Dans le coffre.",""],
+[29,[60,62],"Ouvrez et refermez le coffre et vérifiez sa bonne fermeture.","Ouvre, referme et vérifie la fermeture.","Gros poids dans le coffre : plus de pression dans les pneus et feux avant à régler."],
+[30,[66,100],"Montrez où se situent les gicleurs de lave-glace avant.","Tu montres les gicleurs à l'avant du véhicule.","Lave-glace défaillant : impossible de nettoyer le pare-brise, mauvaise visibilité."]
+],
+sr:[
+[1,[1,65],"Pourquoi doit-on régler la hauteur des feux ?","Pour ne pas éblouir les autres usagers.",""],
+[2,[2],"Pourquoi est-il préférable d'utiliser un liquide lave-glace spécial en hiver ?","Pour éviter le gel du liquide.",""],
+[3,[3,67],"Quel est l'intérêt de la position nuit du rétroviseur intérieur ?","Ne pas être ébloui par les feux du véhicule suiveur.",""],
+[4,[4,68],"Citez un endroit où l'on peut trouver les pressions préconisées pour les pneumatiques.","Sur une plaque de porte, dans la notice d'utilisation du véhicule, ou au niveau de la trappe à carburant.","Trois endroits : porte, notice, trappe."],
+[5,[5,69],"Comment détecter l'usure des essuie-glaces en circulation ?","En cas de pluie, quand ils laissent des traces sur le pare-brise.",""],
+[6,[6],"Quelles précautions prendre en cas d'installation d'un porte-vélo ?","La plaque d'immatriculation et les feux doivent rester visibles.",""],
+[7,[7,71],"En cas de panne ou d'accident, quel autre accessoire de sécurité est obligatoire, en plus du gilet ?","Le triangle de pré-signalisation.",""],
+[8,[8,70],"Quelle est la conséquence d'un niveau insuffisant de liquide de frein ?","Une perte d'efficacité du freinage.",""],
+[9,[9],"Quels sont les deux autres documents obligatoires à présenter en contrôle, en plus de la carte grise ?","L'attestation d'assurance et le permis de conduire.",""],
+[10,[10],"Quel est le risque de circuler avec des balais d'essuie-glace défectueux ?","Une mauvaise visibilité en cas d'intempéries.",""],
+[11,[11,34],"Quelles précautions prendre lors du remplissage du réservoir ?","Arrêter le moteur, ne pas fumer, ne pas téléphoner.","Trois interdits : moteur, cigarette, téléphone."],
+[12,[12,72],"Quel est le danger si l'on complète le liquide de refroidissement moteur chaud ?","Un risque de brûlure.",""],
+[13,[13,73],"Quelle peut être la conséquence d'une panne de dégivrage de la lunette arrière ?","Une visibilité insuffisante ou absente vers l'arrière.",""],
+[14,[14,74],"Que signifie un clignotement plus rapide ?","L'une des ampoules ne fonctionne pas.",""],
+[15,[15,75],"Quelles conditions respecter pour contrôler ou compléter le niveau d'huile ?","Moteur froid et sur un terrain plat.",""],
+[16,[16],"Dans quel cas utilise-t-on les feux de brouillard arrière ?","Par temps de brouillard et de neige.","Pas par forte pluie."],
+[17,[17,77],"À partir de quel taux d'alcoolémie est-on en infraction en période probatoire ?","0,2 g/l, c'est-à-dire 0 verre, car dès le premier verre ce seuil peut être dépassé.",""],
+[18,[18,76,31,85],"Dans quels cas utilise-t-on les feux de détresse ?","En cas de panne, d'accident ou de ralentissement important.",""],
+[19,[19],"Pourquoi est-il important de bien régler son volant ? Citez deux exemples.","Confort de conduite, accessibilité des commandes, visibilité du tableau de bord, efficacité des airbags. Deux suffisent.",""],
+[20,[20,78],"Citez un cas d'utilisation de l'appel lumineux.","Pour avertir de son approche, en cas de danger, ou à la place de l'avertisseur sonore.",""],
+[21,[21,79],"Le désembuage automatique est utilisable si le véhicule en est équipé. Citez deux éléments complémentaires pour un désembuage efficace.","La vitesse de ventilation, l'air chaud, la climatisation. Deux suffisent.",""],
+[22,[22,80,36],"Quel est le principal risque d'un manque d'huile moteur ?","Un risque de détérioration ou de casse du moteur.",""],
+[23,[23],"Qu'est-ce qui peut provoquer la décharge de la batterie, moteur éteint ?","Les feux ou accessoires électriques laissés en fonctionnement.",""],
+[24,[24],"Que faire en cas de panne de batterie pour démarrer sans déplacer le véhicule ?","Brancher une deuxième batterie en parallèle (les + ensemble, les − ensemble) ou remplacer la batterie.",""],
+[25,[25,55,81],"Quel est le risque de circuler avec un frein de parking mal desserré ?","Une dégradation du système de freinage.",""],
+[26,[26,82],"Quelles sont les conséquences d'un mauvais réglage des feux de croisement ?","Une mauvaise vision vers l'avant et un risque d'éblouissement des autres usagers.",""],
+[27,[27,83],"Quelle est la conséquence d'une température trop élevée du liquide de refroidissement ?","Une surchauffe ou une casse du moteur.",""],
+[28,[28],"Quelle est l'utilité des dispositifs réfléchissants ?","Rendre le véhicule visible la nuit.",""],
+[29,[29],"Quelle précaution prendre pour que les enfants installés à l'arrière ne puissent pas ouvrir leur portière ?","Actionner la sécurité enfant sur les deux portières arrière.",""],
+[30,[30],"Par temps clair, à quelle distance les feux de position doivent-ils être visibles ?","À 150 mètres.",""],
+[31,[32,84],"Qu'est-ce que l'aquaplanage, et quelle peut être sa conséquence ?","Un film d'eau entre le pneu et la chaussée, pouvant entraîner une perte de contrôle du véhicule.",""],
+[32,[33],"Sans actionner la commande du régulateur, comment le désactiver rapidement ?","En appuyant sur la pédale de frein ou d'embrayage.",""],
+[33,[35],"Dans quel cas peut-on utiliser l'avertisseur sonore en agglomération ?","En cas de danger immédiat.",""],
+[34,[37,87],"Dans quelle situation doit-on désactiver l'airbag passager ?","Lors du transport d'un enfant dans un siège auto installé dos à la route.",""],
+[35,[38,86,63,99],"À quelle fréquence est-il préconisé de vérifier la pression des pneus ?","Chaque mois pour une utilisation normale, et avant chaque long trajet.",""],
+[36,[39,89],"En règle générale, à partir de quel âge un enfant peut-il être installé sur le siège passager avant ?","10 ans.",""],
+[37,[40],"Un défaut d'éclairage de la plaque d'immatriculation au contrôle technique entraîne-t-il une contre-visite ?","Oui.",""],
+[38,[41],"Quels sont les deux autres documents obligatoires à présenter, en plus de l'attestation d'assurance ?","Le certificat d'immatriculation (carte grise) et le permis de conduire.",""],
+[39,[43,91],"Peut-on utiliser les feux de brouillard arrière par forte pluie ?","Non.",""],
+[40,[42,88],"Si la sécurité enfant est enclenchée, peut-on ouvrir la portière arrière depuis l'extérieur ?","Oui.",""],
+[41,[44],"Quelles sont les deux utilités des feux de recul ?","Éclairer la zone de recul la nuit et avertir les autres usagers de la manœuvre.",""],
+[42,[45],"Quelle est l'utilité de l'appui-tête ?","Retenir le mouvement de la tête en cas de choc et limiter les blessures.",""],
+[43,[46,90],"Quelle est la conséquence d'une panne des feux stop ?","Un manque d'information pour les usagers qui suivent et un risque de collision.",""],
+[44,[47],"Quelle est la différence entre un voyant orange et un voyant rouge ?","Rouge : anomalie de fonctionnement ou danger. Orange : élément important.",""],
+[45,[48],"Quel est le risque d'une mauvaise fermeture du capot en roulant ?","Une ouverture du capot pouvant entraîner un accident.",""],
+[46,[49,93],"Quel risque présente un recyclage de l'air maintenu longtemps ?","Une mauvaise visibilité à cause de la buée sur les vitres.",""],
+[47,[50],"Quel est le principal risque d'une absence de liquide lave-glace ?","Une mauvaise visibilité.",""],
+[48,[51,95],"Quel est le risque de maintenir les feux de route en croisant d'autres usagers ?","Un risque d'éblouissement des autres usagers.",""],
+[49,[52,92],"Quelle est l'utilité des feux diurnes ?","Rendre le véhicule plus visible le jour.",""],
+[50,[53],"En cas d'accident, sous quel délai le constat amiable doit-il être transmis à l'assureur ?","5 jours.",""],
+[51,[54,94],"Utilise-t-on le triangle de pré-signalisation sur autoroute ?","Non.",""],
+[52,[56,96],"Quelles sont les conséquences en cas de panne d'un feu de croisement ?","Une mauvaise visibilité et le risque d'être confondu avec un deux-roues.",""],
+[53,[57],"Quelle est l'utilité d'un limiteur de vitesse ?","Ne pas dépasser la vitesse programmée par le conducteur.",""],
+[54,[58,98],"Quelles sont les conséquences en cas de panne d'un feu de position arrière ?","Être mal vu et risquer une collision.",""],
+[55,[59,97],"Pour une bonne visibilité vers l'arrière, en plus de l'essuie-glace, quelle commande actionner par temps de pluie ?","La commande de désembuage (ou dégivrage) arrière.",""],
+[56,[60],"Quand on transporte un poids important dans le coffre, quelles précautions prendre pour les pneus et l'éclairage avant ?","Augmenter la pression des pneumatiques et régler la hauteur des feux avant.",""],
+[57,[61],"Peut-on fixer tous les sièges enfants sur des attaches Isofix ?","Non, uniquement ceux compatibles avec ce type d'attache.",""],
+[58,[62],"Quels sont les risques de circuler avec des objets sur la plage arrière ?","Une mauvaise visibilité vers l'arrière et un risque de projection en cas de freinage brusque ou de choc.",""],
+[59,[64],"Pour un capot s'ouvrant par l'avant, quelle est l'utilité du dispositif de sécurité ?","Empêcher l'ouverture du capot en circulation en cas de mauvais verrouillage.",""],
+[60,[66,100],"Quelle est la principale conséquence d'un lave-glace défaillant ?","Une mauvaise visibilité due à l'impossibilité de nettoyer le pare-brise.",""]
+],
+pp:[
+[1,[1,65,38,86],"Comment et pourquoi protéger une zone de danger en cas d'accident de la route ?","En la délimitant clairement et largement, de façon visible, pour protéger les victimes et éviter un suraccident.",""],
+[2,[2,31,85],"Quels comportements adopter en cas de diffusion du signal d'alerte du SAIP ?","Se mettre en sécurité. S'informer via les médias et les sites des autorités dès que possible. Respecter les consignes des autorités.","SAIP : Système d'Alerte et d'Information des Populations."],
+[3,[3,67,39,89],"Comment est composé le signal d'alerte du SAIP diffusé par les sirènes ?","Deux codes : le Signal National d'Alerte (variation du signal sur trois cycles successifs) et le signal de fin d'alerte (signal continu).",""],
+[4,[4,68,33],"Sur autoroute, comment indiquer avec précision le lieu de l'accident depuis un téléphone portable ?","En indiquant le numéro de l'autoroute, le sens de circulation et le point kilométrique.",""],
+[5,[5,69,61],"Comment vérifier la respiration d'une victime ?","Regarder si le ventre et la poitrine se soulèvent et sentir l'air à l'expiration.",""],
+[6,[6],"Qu'est-ce qu'une perte de connaissance ?","La victime ne répond pas et ne réagit pas, mais elle respire.",""],
+[7,[7,71,32,84],"Si un dégagement d'urgence est nécessaire, où déplacer la victime ?","Dans un endroit suffisamment éloigné du danger et de ses conséquences.",""],
+[8,[8,70,20,78],"En cas de panne ou d'accident, quel équipement de sécurité porter avant de quitter le véhicule ?","Le gilet de haute visibilité.",""],
+[9,[9,34],"Pourquoi l'alerte des secours doit-elle être rapide et précise ?","Pour permettre aux secours d'apporter les moyens adaptés aux victimes dans le délai le plus court.",""],
+[10,[10,57],"Quels numéros d'urgence composer ?","Le 18 (sapeurs-pompiers), le 15 (SAMU) et le 112 (urgences, valable dans toute l'Union européenne).",""],
+[11,[11,59,97],"Quels comportements adopter face à une victime qui ne répond pas et ne réagit pas, mais respire ?","La placer en position latérale de sécurité (PLS), alerter les secours, surveiller sa respiration jusqu'à leur arrivée.",""],
+[12,[12,55,72],"Comment arrêter une hémorragie ?","Appuyer fortement sur l'endroit qui saigne, avec les doigts ou la paume de la main, en mettant un tissu propre sur la plaie.",""],
+[13,[13,73,25,81],"Hors autoroute ou endroit dangereux, où placer le triangle de pré-signalisation ?","À environ 30 m de la panne ou de l'accident, ou avant un virage ou un sommet de côte.",""],
+[14,[14,74,37,87],"Quelles conditions pour réaliser le dégagement d'urgence d'une victime face à un danger réel, immédiat et non contrôlable ?","La victime doit être visible et facile à atteindre, rien ne doit gêner son dégagement, et tu dois être sûr de pouvoir le réaliser.",""],
+[15,[15,75,40],"Quelles sont les trois informations à transmettre aux secours ?","Le numéro de téléphone d'où part l'appel, la nature du problème et sa localisation la plus précise.",""],
+[16,[16,45],"Par quels moyens alerter les secours ?","Avec un téléphone portable ou, à défaut, un téléphone fixe ou une borne d'appel d'urgence.",""],
+[17,[17,77,54,94],"Que faire face à une victime en arrêt cardiaque ?","ALERTER immédiatement les secours, MASSER (réanimation cardio-pulmonaire), DÉFIBRILLER avec un DAE si possible.","Retiens le trio : Alerter, Masser, Défibriller."],
+[18,[18,76],"Dans quel cas peut-on positionner une victime en position latérale de sécurité (PLS) ?","Si elle ne répond pas, ne réagit pas et respire.",""],
+[19,[19,26,82],"Dans quelle situation peut-on déplacer une victime ?","En présence d'un danger réel, immédiat et non contrôlable. Ce déplacement reste exceptionnel.",""],
+[20,[21,79,51,95],"Quel est l'objectif du SAIP ?","Avertir la population d'un danger imminent ou d'un événement grave en cours.",""],
+[21,[22,80,58,98],"Comment est diffusée l'alerte du SAIP ?","Par les sirènes, par les médias (Radio France, France Télévisions) et par l'application SAIP.",""],
+[22,[23],"À partir de quel âge peut-on suivre une formation aux premiers secours ?","À partir de 10 ans.",""],
+[23,[24,50],"Pourquoi pratiquer immédiatement une réanimation cardio-pulmonaire sur une victime en arrêt cardiaque ?","Parce que les lésions du cerveau surviennent dès les premières minutes.",""],
+[24,[27,46,83,90],"Lors d'un appel aux secours, pourquoi attendre que le correspondant t'autorise à raccrocher ?","Il peut te conseiller ou te guider dans les gestes à faire, ou à ne pas faire, jusqu'à l'arrivée des secours.",""],
+[25,[28,52,92],"À quel moment peut-on mettre fin à un appel avec les secours ?","Uniquement quand le correspondant nous invite à le faire.",""],
+[26,[29,56,96],"Citez les trois manières d'évaluer l'état de conscience d'une victime.","Lui poser des questions simples (« Comment ça va ? », « Vous m'entendez ? »), lui secouer doucement les épaules, lui prendre la main en demandant « Serrez-moi la main ».",""],
+[27,[30,49,93],"Quels sont les risques pour une personne en perte de connaissance allongée sur le dos ?","L'arrêt respiratoire et l'arrêt cardiaque.",""],
+[28,[35],"Pourquoi ne pas laisser une personne en perte de connaissance allongée sur le dos ?","Elle risque l'étouffement par les liquides présents dans la gorge et par la chute de la langue en arrière.",""],
+[29,[36,60],"L'utilisation d'un DAE sur une victime qui n'est pas en arrêt cardiaque présente-t-elle un risque ?","Non, car le défibrillateur ne se déclenche que si la victime est en arrêt cardiaque.",""],
+[30,[42,64,88],"Quels sont les risques pour une victime d'hémorragie ?","Une détresse circulatoire ou un arrêt cardiaque.",""],
+[31,[43,91],"Quels sont les signes d'un arrêt cardiaque ?","La victime ne répond pas, ne réagit pas et ne respire pas, ou présente une respiration anormale.",""],
+[32,[44,66,100],"Qu'est-ce qu'un défibrillateur automatisé externe (DAE) ?","Un appareil qui peut rétablir une activité cardiaque normale chez une victime en arrêt cardiaque.",""],
+[33,[47,63,99],"Qu'est-ce qu'un arrêt cardiaque ?","Le cœur ne fonctionne plus ou fonctionne de façon anarchique.",""],
+[34,[48,53],"Quel est le risque principal d'un arrêt cardiaque sans intervention des secours ?","La mort de la victime, qui survient en quelques minutes.",""],
+[35,[41,62],"Qu'est-ce qu'une hémorragie ?","Une perte de sang prolongée qui ne s'arrête pas. Elle imbibe un mouchoir de sang en quelques secondes.",""]
+]};
+const CHAPS=[
+{deck:"vi",title:"Voyants et couleurs",ids:[8,12,13,14,15,20,24,31]},
+{deck:"vi",title:"Visibilité et éclairage",ids:[1,2,3,7,11,16,22,25,26,29]},
+{deck:"vi",title:"Équipements et sécurité",ids:[4,6,10,17,18,19,23,28,30]},
+{deck:"vi",title:"Documents à bord",ids:[5,9,21,27]},
+{deck:"ve",title:"Éclairage",ids:[7,8,9,10,13,15,20,22,23,25]},
+{deck:"ve",title:"Capot et liquides",ids:[1,4,6,11,12,18,24,27]},
+{deck:"ve",title:"Pneus et carrosserie",ids:[2,3,5,14,16,17,19,21,26,28,29,30]},
+{deck:"sr",title:"Éclairage et signalisation",ids:[1,3,14,16,18,20,26,28,30,39,41,43,44,48,49,51,52,54]},
+{deck:"sr",title:"Visibilité",ids:[2,5,10,13,21,46,47,55,58,60]},
+{deck:"sr",title:"Pneus, freinage, chargement",ids:[4,8,25,31,35,56]},
+{deck:"sr",title:"Moteur, batterie, fluides",ids:[11,12,15,22,23,24,27,32,45,53,59]},
+{deck:"sr",title:"Passagers, enfants, documents",ids:[6,7,9,17,19,29,33,34,36,37,38,40,42,50,57]},
+{deck:"pp",title:"Alerter les secours",ids:[4,9,10,15,16,24,25]},
+{deck:"pp",title:"Protéger et dégager",ids:[1,7,8,13,14,19]},
+{deck:"pp",title:"Conscience et respiration",ids:[5,6,11,18,26,27,28]},
+{deck:"pp",title:"Hémorragie",ids:[12,30,35]},
+{deck:"pp",title:"Arrêt cardiaque et défibrillateur",ids:[17,22,23,29,31,32,33,34]},
+{deck:"pp",title:"Alerte aux populations (SAIP)",ids:[2,3,20,21]}
+];
+/*ENDDATA*/
+
+/*FIGS*/
+const IC={
+ oil:'<path d="M10 24h20l4 4v8a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2z"/><path d="M14 24v-4h8v4M32 25l9-7h3M14 32c2-2 4 2 6 0s4 2 6 0"/><path d="M45 22c-1.5 2-2 3-2 4a2 2 0 0 0 4 0c0-1-.5-2-2-4z"/>',
+ battery:'<path d="M6 16h36v22H6zM12 16v-4h6v4M30 16v-4h6v4M14 27h8M18 23v8M30 27h8"/>',
+ brake:'<circle cx="24" cy="24" r="10"/><path d="M24 18v7M24 29.5v.5M11 12a17 17 0 0 0 0 24M37 12a17 17 0 0 1 0 24"/>',
+ temp:'<path d="M20 28V10a4 4 0 0 1 8 0v18a8 8 0 1 1-8 0zM31 14h5M31 20h5M8 41c3-2 5 2 8 0s5 2 8 0 5 2 8 0 5 2 8 0"/><circle cx="24" cy="34" r="3" fill="currentColor"/>',
+ door:'<path d="M14 6h20a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4zM14 14h20M14 34h20M38 18l7 5v11l-7-3"/>',
+ belt:'<circle cx="22" cy="11" r="5"/><path d="M22 18c-7 0-11 3-11 9v11h24v-8M13 21l22 17"/>',
+ fogR:'<path d="M17 12a12 12 0 0 0 0 24zM23 15h10M23 24h10M23 33h10M40 6c3 3-3 6 0 9s-3 6 0 9 3 6 0 9 3 6 0 9"/>',
+ highbeam:'<path d="M17 12a12 12 0 0 0 0 24zM24 14h18M24 20h18M24 26h18M24 32h18"/>',
+ tire:'<path d="M8 40V26a16 16 0 0 1 32 0v14M8 40h7M33 40h7M24 17v10M24 32v1"/>',
+ defrostR:'<path d="M9 36l5-22h20l5 22zM18 31c-3-3 3-5 0-8M24 31c-3-3 3-5 0-8M30 31c-3-3 3-5 0-8"/>',
+ defrostF:'<path d="M5 37l7-26h24l7 26zM16 32c-3-3 3-5 0-8M24 32c-3-3 3-5 0-8M32 32c-3-3 3-5 0-8"/>',
+ hazard:'<path d="M24 6l20 34H4zM24 17l9 17H15z"/>',
+ recirc:'<path d="M8 33v-9l5-9h22l5 9v9zM12 33v4M36 33v4M19 27a5 5 0 1 1 10 0M26 25l3 2 2-3"/>',
+ wiperR:'<path d="M9 38l4-24h22l4 24zM24 34L15 18M13 21a14 14 0 0 1 22 0"/>',
+ wiperF:'<path d="M5 38l7-26h24l7 26zM15 34l6-17M27 34l6-17"/>',
+ airbag:'<circle cx="17" cy="11" r="4"/><path d="M17 17v12h10l5 8M30 16a6 6 0 1 0 8 8M8 8l32 32"/><text x="24" y="47" font-size="9" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none">OFF</text>',
+ fuel:'<path d="M10 40V10a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v30M8 40h22M14 14h10v8H14zM28 18h4a3 3 0 0 1 3 3v12a3 3 0 0 0 6 0V16l-5-5"/>',
+ hlevel:'<path d="M19 12a12 12 0 0 0 0 24zM25 18h9M25 24h9M25 30h9M42 14v20M39 17l3-3 3 3M39 31l3 3 3-3"/>',
+ mirror:'<path d="M6 10h36v20H6zM24 30v7M17 37h14M31 15a6 6 0 1 0 0 10 5 5 0 0 1 0-10z"/>',
+ horn:'<path d="M7 19h8l10-8v26l-10-8H7zM31 18a8 8 0 0 1 0 12M37 13a14 14 0 0 1 0 22"/>',
+ gauge:'<path d="M6 35a18 18 0 1 1 36 0M10 27l3 1M24 15v3M38 27l-3 1M24 35l8-10"/><circle cx="24" cy="35" r="2.5" fill="currentColor"/>',
+ headrest:'<path d="M17 6h12a3 3 0 0 1 3 3v8H14V9a3 3 0 0 1 3-3zM12 22h24v20H12zM41 8v12M38 11l3-3 3 3M38 17l3 3 3-3"/>',
+ wheel:'<circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="4"/><path d="M7 24h13M28 24h13M24 28v13"/>',
+ doc:'<path d="M12 6h18l8 8v28H12zM30 6v8h8M17 23h14M17 29h14M17 35h9"/>',
+ vest:'<path d="M16 7l8 7 8-7 7 9-5 5v21H14V21l-5-5zM14 29h20M14 35h20"/>',
+ alco:'<path d="M7 19h24a7 7 0 0 1 0 14H7zM31 24h11M31 28h11"/>',
+ isofix:'<path d="M12 40V18l8-9h9v15h11v16zM12 40l-5 5M40 40l5 5"/>'
+};
+function icon(name,cls){return '<svg class="ic '+(cls||'')+'" viewBox="0 0 48 48" width="76" height="76" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[name]+'</svg>'}
+const ICON_BY={vi1:["hlevel",""],vi2:["mirror",""],vi3:["wiperF",""],vi4:["vest",""],vi5:["doc",""],vi6:["fuel",""],vi7:["defrostR",""],vi8:["oil","red"],vi9:["alco",""],vi10:["wheel",""],vi11:["defrostF",""],vi12:["battery","red"],vi13:["brake","red"],vi14:["temp","red"],vi15:["door","red"],vi16:["hazard","red"],vi17:["gauge",""],vi18:["horn",""],vi19:["airbag",""],vi20:["belt","red"],vi21:["doc",""],vi22:["fogR","warn"],vi23:["headrest",""],vi24:["fogR","warn"],vi25:["recirc",""],vi26:["highbeam","blue"],vi27:["doc",""],vi28:["gauge",""],vi29:["wiperR",""],vi30:["isofix",""],vi31:["tire","warn"]};
+const COLCAP={red:"Voyant rouge : anomalie ou danger.",warn:"Voyant orange : élément important.",blue:"Voyant bleu : feux de route allumés."};
+
+function dgCockpit(h){const c=i=>h.indexOf(i)>-1?" hl":"";
+ return '<svg class="dg" viewBox="-34 0 434 232" role="img" aria-label="Schéma de l\'habitacle vu du conducteur">'
+ +'<rect class="bgz" x="12" y="6" width="376" height="24" rx="6"/><text class="dl" x="200" y="22" text-anchor="middle">pare-brise</text>'
+ +'<rect class="bgz" x="8" y="48" width="384" height="130" rx="16"/>'
+ +'<rect class="dz'+c("retro")+'" x="178" y="33" width="44" height="11" rx="3"/><text class="dl'+c("retro")+'" x="228" y="42">rétroviseur</text>'
+ +'<rect class="dz'+c("tb")+'" x="72" y="64" width="96" height="38" rx="10"/><circle class="sub" cx="97" cy="83" r="13"/><circle class="sub" cx="143" cy="83" r="13"/><text class="dl'+c("tb")+'" x="120" y="60" text-anchor="middle">tableau de bord</text>'
+ +'<circle class="dz'+c("vol")+'" cx="120" cy="150" r="40"/><circle class="bgz" cx="120" cy="150" r="30"/><path class="sp" d="M92 150h16M132 150h16M120 162v22"/>'
+ +'<circle class="dz'+c("hub")+'" cx="120" cy="150" r="11"/><text class="dl'+c("vol")+c("hub")+'" x="120" y="204" text-anchor="middle">volant</text>'
+ +'<rect class="dz'+c("lg")+'" x="60" y="134" width="28" height="9" rx="4"/><text class="dl'+c("lg")+'" x="56" y="142" text-anchor="end">levier gauche</text>'
+ +'<rect class="dz'+c("ld")+'" x="152" y="134" width="28" height="9" rx="4"/><text class="dl'+c("ld")+'" x="186" y="142">levier droit</text>'
+ +'<rect class="dz'+c("bg")+'" x="18" y="156" width="38" height="18" rx="3"/><text class="dl'+c("bg")+'" x="37" y="190" text-anchor="middle">bas gauche</text>'
+ +'<rect class="dz'+c("cc")+'" x="256" y="68" width="50" height="78" rx="8"/><rect class="sub" x="262" y="74" width="38" height="24" rx="3"/><path class="sp" d="M262 110h38M262 118h38M281 126l6 10h-12z"/><text class="dl'+c("cc")+'" x="281" y="162" text-anchor="middle">console centrale</text>'
+ +'<rect class="dz'+c("bag")+'" x="322" y="100" width="66" height="46" rx="6"/><text class="dl'+c("bag")+'" x="355" y="120" text-anchor="middle">boîte à</text><text class="dl'+c("bag")+'" x="355" y="133" text-anchor="middle">gants</text>'
+ +'<text class="dl" x="200" y="224" text-anchor="middle">Schéma type : la place exacte varie selon le modèle.</text></svg>';}
+
+function dgEngine(h){const c=i=>h.indexOf(i)>-1?" hl":"";
+ return '<svg class="dg" viewBox="0 0 400 230" role="img" aria-label="Schéma du compartiment moteur vu de dessus">'
+ +'<rect class="bgz" x="40" y="10" width="320" height="196" rx="26"/><text class="dl" x="200" y="26" text-anchor="middle">avant du véhicule</text>'
+ +'<rect class="sub" x="140" y="72" width="110" height="80" rx="12"/>'
+ +'<rect class="dz'+c("bat")+'" x="58" y="40" width="72" height="40" rx="4"/><text class="dl'+c("bat")+'" x="94" y="64" text-anchor="middle">batterie</text>'
+ +'<rect class="dz'+c("ls")+'" x="290" y="40" width="56" height="38" rx="6"/><text class="dl'+c("ls")+'" x="318" y="92" text-anchor="middle">bocal lave-glace</text>'
+ +'<rect class="dz'+c("rf")+'" x="270" y="108" width="50" height="34" rx="6"/><text class="dl'+c("rf")+'" x="295" y="156" text-anchor="middle">refroidissement</text>'
+ +'<rect class="dz'+c("lf")+'" x="62" y="148" width="40" height="26" rx="4"/><text class="dl'+c("lf")+'" x="46" y="188">liquide de frein</text>'
+ +'<circle class="dz'+c("bo")+'" cx="172" cy="96" r="10"/><text class="dl'+c("bo")+'" x="176" y="64" text-anchor="middle">bouchon d\'huile</text>'
+ +'<circle class="dz'+c("jauge")+'" cx="218" cy="130" r="8"/><path class="sp" d="M218 122v-9"/><text class="dl'+c("jauge")+'" x="218" y="168" text-anchor="middle">jauge d\'huile</text>'
+ +'<text class="dl" x="290" y="198" text-anchor="middle">pare-brise</text>'
+ +'<text class="dl" x="200" y="224" text-anchor="middle">Schéma type : varie selon le moteur.</text></svg>';}
+
+function dgCar(h){const c=i=>h.indexOf(i)>-1?" hl":"";
+ return '<svg class="dg" viewBox="0 0 360 300" role="img" aria-label="Schéma du véhicule vu de dessus">'
+ +'<rect class="bgz" x="110" y="20" width="140" height="260" rx="40"/>'
+ +'<rect class="dz'+c("cap")+'" x="126" y="46" width="108" height="44" rx="8"/>'
+ +'<path class="dz'+c("pb")+'" d="M128 94h104l-12 36h-80z"/>'
+ +'<rect class="sub" x="134" y="134" width="92" height="84" rx="10"/>'
+ +'<rect class="dz'+c("cof")+'" x="126" y="222" width="108" height="30" rx="6"/>'
+ +'<rect class="dz'+c("av")+'" x="116" y="26" width="30" height="14" rx="5"/><rect class="dz'+c("av")+'" x="214" y="26" width="30" height="14" rx="5"/>'
+ +'<rect class="dz'+c("clg")+'" x="116" y="44" width="10" height="10" rx="3"/><rect class="dz'+c("clg")+'" x="234" y="44" width="10" height="10" rx="3"/>'
+ +'<rect class="dz'+c("clg")+'" x="104" y="140" width="6" height="16" rx="3"/><rect class="dz'+c("clg")+'" x="250" y="140" width="6" height="16" rx="3"/>'
+ +'<rect class="dz'+c("clg")+'" x="116" y="240" width="10" height="10" rx="3"/><rect class="dz'+c("clg")+'" x="234" y="240" width="10" height="10" rx="3"/>'
+ +'<rect class="dz'+c("ar")+'" x="116" y="256" width="30" height="14" rx="5"/><rect class="dz'+c("ar")+'" x="214" y="256" width="30" height="14" rx="5"/>'
+ +'<rect class="dz'+c("pl")+'" x="160" y="12" width="40" height="10" rx="2"/><rect class="dz'+c("pl")+'" x="160" y="278" width="40" height="10" rx="2"/>'
+ +'<rect class="dz'+c("pn")+'" x="96" y="60" width="14" height="34" rx="4"/><rect class="dz'+c("pn")+'" x="250" y="60" width="14" height="34" rx="4"/><rect class="dz'+c("pn")+'" x="96" y="196" width="14" height="34" rx="4"/><rect class="dz'+c("pn")+'" x="250" y="196" width="14" height="34" rx="4"/>'
+ +'<rect class="dz'+c("dr")+'" x="104" y="166" width="6" height="30" rx="2"/><rect class="dz'+c("dr")+'" x="250" y="166" width="6" height="30" rx="2"/>'
+ +'<rect class="dz'+c("trap")+'" x="250" y="236" width="6" height="16" rx="2"/>'
+ +'<rect class="dz'+c("ref")+'" x="128" y="272" width="14" height="5" rx="2"/><rect class="dz'+c("ref")+'" x="218" y="272" width="14" height="5" rx="2"/>'
+ +'<text class="dl" x="290" y="32">AVANT</text><text class="dl" x="290" y="286">ARRIÈRE</text></svg>';}
+
+const DG={cockpit:dgCockpit,engine:dgEngine,car:dgCar};
+const TB="Sur le tableau de bord, devant le conducteur.";
+const ZM={
+ vi1:["cockpit",["bg"],"Souvent en bas à gauche du volant."],vi2:["cockpit",["retro"],"Levier sous le rétroviseur intérieur."],vi3:["cockpit",["ld"],"Levier à droite du volant."],
+ vi5:["cockpit",["bag"],"Souvent dans la boîte à gants."],vi6:["cockpit",["tb"],TB],vi7:["cockpit",["cc"],"Souvent sur la console centrale."],
+ vi8:["cockpit",["tb"],TB],vi9:["cockpit",["bag"],"Souvent dans la boîte à gants."],vi10:["cockpit",["vol"],"Autour du volant, selon le modèle."],
+ vi11:["cockpit",["cc"],"Commandes de ventilation, souvent sur la console centrale."],vi12:["cockpit",["tb"],TB],vi13:["cockpit",["tb"],TB],vi14:["cockpit",["tb"],TB],vi15:["cockpit",["tb"],TB],
+ vi16:["cockpit",["cc"],"Bouton triangle, souvent au centre de la planche de bord."],vi18:["cockpit",["hub"],"Au centre du volant."],vi20:["cockpit",["tb"],TB],
+ vi21:["cockpit",["bag"],"Attestation souvent dans la boîte à gants."],vi22:["cockpit",["lg"],"Souvent sur le levier ou la bague d'éclairage, à gauche."],vi24:["cockpit",["tb"],TB],
+ vi25:["cockpit",["cc"],"Souvent sur la console centrale."],vi26:["cockpit",["lg"],"Souvent sur le levier d'éclairage, à gauche."],vi27:["cockpit",["bag"],"Souvent dans la boîte à gants."],
+ vi29:["cockpit",["ld"],"Souvent sur le levier d'essuie-glace, à droite."],vi31:["cockpit",["tb"],TB],
+ ve1:["engine",["ls"],"Bocal de lave-glace, sous le capot."],ve2:["car",["pn"],"Flanc des pneus."],ve3:["car",["pl"],"Plaques avant et arrière."],ve4:["engine",["lf"],"Bocal de liquide de frein, côté conducteur, près du pare-brise."],
+ ve5:["car",["pb"],"Balais d'essuie-glace, à la base du pare-brise."],ve6:["engine",["rf"],"Vase du liquide de refroidissement."],ve7:["car",["clg"],"Clignotants avant, arrière et latéraux."],
+ ve8:["car",["ar"],"Feux arrière."],ve9:["car",["av","ar","clg"],"Tous les feux : avant, arrière et clignotants."],ve10:["car",["av"],"Feux avant."],
+ ve11:["engine",["jauge"],"Jauge d'huile, souvent à poignée colorée."],ve12:["engine",["bat"],"Batterie, sous le capot (parfois dans le coffre)."],ve13:["car",["av"],"Feux avant."],
+ ve14:["car",["ref"],"Dispositifs réfléchissants, à l'arrière."],ve15:["car",["av","ar"],"Feux de position, avant et arrière."],ve16:["car",["pn"],"Flanc des pneus."],
+ ve17:["car",["trap"],"Trappe à carburant, côté du véhicule selon le modèle."],ve18:["engine",["bo"],"Bouchon de remplissage d'huile sur le moteur."],ve19:["car",["pn"],"Pneus."],
+ ve20:["car",["pl"],"Plaque arrière et son éclairage."],ve21:["car",["dr"],"Tranche des portières arrière."],ve22:["car",["ar"],"Feux arrière."],ve23:["car",["ar"],"Feux arrière."],
+ ve24:["car",["cap"],"Capot."],ve25:["car",["av"],"Feux avant."],ve26:["car",["cof"],"Souvent dans le coffre."],ve27:["car",["cap"],"Sous le capot."],ve28:["car",["cof"],"Dans le coffre."],
+ ve29:["car",["cof"],"Coffre."],ve30:["car",["cap","pb"],"Sur le capot ou à la base du pare-brise."]
+};
+function figHTML(id){
+  const ic=ICON_BY[id],zm=ZM[id];if(!ic&&!zm)return "";
+  let h='<div class="figs">';
+  if(ic)h+='<figure class="fig">'+icon(ic[0],ic[1])+'<figcaption>'+(COLCAP[ic[1]]||"Repère type, variable selon la marque.")+'</figcaption></figure>';
+  if(zm)h+='<figure class="fig wide">'+DG[zm[0]](zm[1])+'<figcaption>Zone en bleu : '+zm[2].replace(/^./,m=>m.toLowerCase())+'</figcaption></figure>';
+  return h+'</div>';
+}
+/*ENDFIGS*/
+
+const EXPL={"vi6": "Pictogramme de pompe à essence. Sur beaucoup de voitures, une petite flèche à côté indique de quel côté se trouve la trappe.", "vi12": "Voyant rouge en forme de batterie : la batterie n'est plus rechargée correctement. Il s'allume à la mise du contact puis s'éteint moteur tournant.", "vi15": "Il s'allume si une portière (ou le coffre) n'est pas bien fermée. En roulant, elle pourrait s'ouvrir.", "vi20": "Voyant rouge d'une personne ceinturée. Il reste allumé tant que le conducteur n'a pas bouclé sa ceinture.", "ve2": "Une bosse (hernie) ou une coupure sur le flanc montre que la structure du pneu est abîmée : il risque d'éclater.", "ve3": "Les plaques identifient le véhicule : elles doivent rester propres, lisibles et en bon état.", "ve10": "Les feux de route éclairent loin. On les utilise la nuit quand on ne croise ni ne suit personne.", "ve12": "En général sous le capot. Sur certains modèles, elle est dans le coffre ou sous un siège : vérifie sur ta voiture d'examen.", "ve27": "La façon d'accéder à l'ampoule varie selon le modèle. La réponse attendue : sous le capot.", "ve28": "La réponse attendue : dans le coffre, derrière la garniture.", "sr1": "Voiture chargée à l'arrière, l'avant se relève et les feux montent : ils éblouissent ceux qui arrivent en face. On les rabaisse avec la commande.", "sr2": "Le liquide d'été peut geler dans le bocal et les tuyaux : plus de lave-glace quand tu en as besoin.", "sr3": "La nuit, les phares de la voiture derrière se reflètent dans ton rétroviseur. La position nuit atténue ce reflet.", "sr4": "Trois endroits à retenir : plaque côté conducteur, notice, trappe à carburant. Une bonne pression préserve les pneus et la tenue de route.", "sr5": "Un balai usé n'essuie plus d'un seul passage : il laisse des traces sur le pare-brise quand il pleut.", "sr6": "Un porte-vélo ne doit pas masquer la plaque ni les feux, sinon ta voiture est mal identifiable et mal signalée.", "sr7": "Le triangle signale l'obstacle de loin. Le gilet, lui, te rend visible : il se met avant de sortir du véhicule.", "sr8": "Le liquide de frein transmet ta poussée sur la pédale jusqu'aux freins. Pas assez de liquide : freinage moins efficace.", "sr10": "Sous la pluie ou la neige, un balai défectueux laisse des zones non essuyées : tu vois mal la route.", "sr11": "Les vapeurs d'essence sont inflammables : on coupe le moteur, on ne fume pas, on ne téléphone pas (risque d'étincelle).", "sr12": "Le circuit est chaud et sous pression : en ouvrant le bouchon, du liquide brûlant peut jaillir. On attend que le moteur refroidisse.", "sr13": "Le dégivrage chauffe la lunette arrière pour enlever buée et givre. En panne, tu vois mal derrière.", "sr14": "Si un clignotant clignote plus vite, une des ampoules de ce côté est grillée.", "sr15": "Moteur froid, l'huile est redescendue dans le carter. Terrain plat, la jauge indique un niveau juste.", "sr16": "Ces feux sont très puissants : ils éblouissent ceux qui te suivent s'il n'y a pas de brouillard. Réservés au brouillard et à la neige.", "sr17": "Le seuil des jeunes conducteurs (0,2 g/l) est plus bas que celui des autres (0,5 g/l). Un seul verre peut suffire à le dépasser : donc 0 verre.", "sr18": "Les feux de détresse préviennent les autres que tu es arrêté ou que tu ralentis fortement et dangereusement.", "sr19": "Un volant bien réglé te laisse atteindre les commandes, voir le tableau de bord et garder une position où l'airbag protège efficacement.", "sr20": "Un appel de phares est un signal bref : on prévient de son approche, ou on signale un danger quand le klaxon n'est pas adapté.", "sr21": "Pour désembuer : ventilation vers le pare-brise, air chaud (plus sec) ou climatisation (elle déshumidifie). Deux éléments suffisent.", "sr22": "L'huile lubrifie et refroidit le moteur. Sans elle, les pièces frottent et chauffent jusqu'à la casse.", "sr23": "Moteur éteint, la batterie ne se recharge pas : des feux ou accessoires laissés allumés la vident.", "sr24": "Batterie à plat : on branche une deuxième batterie en parallèle (+ avec +, − avec −) ou on remplace la batterie.", "sr25": "Frein de parking serré, les freins frottent : ils chauffent et s'abîment.", "sr26": "Des feux trop hauts éblouissent, trop bas ils éclairent mal vers l'avant. Dans les deux cas, la conduite de nuit est moins sûre.", "sr27": "Le liquide refroidit le moteur. Trop chaud : surchauffe, voire casse du moteur.", "sr28": "Les dispositifs réfléchissants renvoient la lumière des autres phares : on te voit la nuit.", "sr29": "Un enfant à l'arrière pourrait ouvrir la portière en roulant. La sécurité enfant la bloque à l'intérieur : on l'enclenche sur les deux portières arrière.", "sr30": "Les feux de position servent à être vu. Visibles à 150 m par temps clair.", "sr31": "L'aquaplanage se produit quand les pneus roulent sur un film d'eau : l'adhérence disparaît et la voiture ne répond plus.", "sr32": "Tu peux couper le régulateur en freinant ou en débrayant, sans chercher sa commande.", "sr33": "En ville, le klaxon n'est autorisé qu'en cas de danger immédiat.", "sr34": "Un siège dos à la route placé devant un airbag actif : le gonflage de l'airbag peut blesser gravement l'enfant. On le désactive.", "sr35": "Une pression trop basse use les pneus et dégrade la tenue de route. Elle baisse naturellement avec le temps : contrôle chaque mois et avant un long trajet.", "sr36": "En règle générale, avant 10 ans l'enfant voyage à l'arrière, dans un système de retenue adapté.", "sr37": "Oui : un défaut d'éclairage de la plaque est une défaillance au contrôle technique, qui entraîne une contre-visite.", "sr39": "Non : le feu de brouillard arrière éblouit trop. Il est réservé au brouillard et à la neige.", "sr40": "Oui : la sécurité enfant ne bloque que l'ouverture depuis l'intérieur. De l'extérieur, la portière s'ouvre.", "sr41": "Les feux de recul éclairent derrière la voiture et préviennent les autres que tu manœuvres.", "sr42": "L'appuie-tête retient la tête en cas de choc. Il doit être réglé à la hauteur de ta tête.", "sr43": "Sans feux stop, ceux qui te suivent ne voient pas que tu freines : risque de collision.", "sr44": "Rouge : anomalie ou danger (ex. frein). Orange : information importante (ex. feu de brouillard arrière allumé).", "sr45": "Un capot qui se relève en roulant masque la vue devant toi : accident possible.", "sr46": "En recyclage, l'air humide de l'habitacle n'est plus renouvelé : la buée se forme sur les vitres.", "sr47": "Sans lave-glace, impossible de nettoyer un pare-brise sale : tu vois mal.", "sr48": "Les feux de route éblouissent les conducteurs en face : on repasse en feux de croisement quand on croise.", "sr49": "Les feux de jour s'allument automatiquement et rendent la voiture plus visible, même en plein jour.", "sr50": "Le constat se transmet à l'assureur sous 5 jours (en pratique, 5 jours ouvrés).", "sr51": "Sur autoroute, descendre poser un triangle sur la chaussée est trop dangereux : on ne l'utilise pas.", "sr52": "Avec un seul feu de croisement, ta voiture peut être prise pour un deux-roues : les autres jugent mal sa largeur.", "sr53": "Le limiteur te protège d'un dépassement involontaire de la vitesse que tu as programmée.", "sr54": "Sans feu de position arrière, on ne te voit pas la nuit : risque d'être percuté par l'arrière.", "sr55": "Le désembuage arrière chauffe la lunette arrière : par temps de pluie, il garde une bonne visibilité vers l'arrière.", "sr56": "Une charge lourde à l'arrière écrase les pneus et relève les feux avant : on augmente la pression et on règle la hauteur des feux.", "sr57": "Isofix = deux attaches entre assise et dossier. Seuls les sièges conçus pour ce système s'y fixent.", "sr58": "Un objet sur la plage arrière gêne la vue vers l'arrière et devient un projectile en cas de freinage brusque ou de choc.", "sr59": "Si le crochet principal est mal verrouillé, la sécurité empêche le capot de s'ouvrir en roulant.", "sr60": "Sans lave-glace, tu ne peux pas nettoyer le pare-brise : visibilité réduite.", "pp1": "Tu délimites la zone pour que d'autres conducteurs ne viennent pas s'ajouter aux victimes. Ce second accident s'appelle le « sur-accident ».", "pp2": "Le SAIP prévient la population d'un danger. On se met en sécurité, on s'informe, on suit les consignes des autorités.", "pp3": "Signal d'alerte : un son qui monte et descend, trois fois de suite. Signal de fin d'alerte : un son continu.", "pp4": "Sur autoroute, peu de repères : numéro de l'autoroute, sens de circulation, point kilométrique (bornes au bord de la route).", "pp5": "Tu observes le ventre et la poitrine, et tu sens l'air expiré.", "pp6": "Perte de connaissance : la victime respire. Arrêt cardiaque : elle ne respire pas (ou anormalement). Ce n'est pas la même urgence.", "pp7": "On déplace la victime seulement pour la mettre hors de danger, assez loin pour être en sécurité.", "pp8": "On enfile le gilet avant de sortir du véhicule : il te rend visible de loin.", "pp9": "Une alerte claire permet aux secours d'envoyer les bons moyens au bon endroit, le plus vite possible.", "pp10": "18 pompiers, 15 SAMU, 112 numéro européen. Les trois sont gratuits.", "pp11": "PLS : on couche la victime sur le côté. La langue ne retombe pas et les liquides s'écoulent. Cette question est neutralisée à l'examen (voir note).", "pp12": "Appuyer directement et fortement sur la plaie : c'est le geste qui arrête le saignement.", "pp13": "Le triangle est posé en amont pour que les autres le voient tôt : à environ 30 m, ou avant le virage ou le sommet de côte.", "pp14": "Trois conditions : voir la victime, pouvoir l'atteindre, et être sûr de pouvoir la dégager sans te mettre en danger.", "pp15": "Retiens N-N-L : Numéro de téléphone, Nature du problème, Localisation précise.", "pp16": "Téléphone portable ou, à défaut, téléphone fixe ou borne d'appel d'urgence.", "pp17": "Retiens A-M-D : Alerter, Masser, Défibriller (avec un DAE si disponible).", "pp18": "PLS = la victime ne répond pas, ne réagit pas, mais respire. Cette question est neutralisée à l'examen (voir note).", "pp19": "On déplace une victime seulement s'il y a un danger réel, immédiat et que tu ne peux pas contrôler. Sinon, on ne la bouge pas.", "pp20": "Le SAIP sert à prévenir la population quand un danger est imminent ou qu'un événement grave est en cours.", "pp21": "Trois canaux : sirènes, médias (Radio France, France Télévisions), application SAIP.", "pp22": "Les formations aux premiers secours sont accessibles dès 10 ans.", "pp23": "Sans oxygène, le cerveau est touché dès les premières minutes. Le massage fait circuler le sang en attendant le défibrillateur.", "pp24": "Le correspondant peut te guider (gestes à faire ou à éviter) jusqu'à l'arrivée des secours.", "pp25": "On raccroche seulement quand le correspondant nous y invite.", "pp26": "Trois manières : poser une question simple, secouer doucement les épaules, demander de serrer la main.", "pp27": "Allongée sur le dos, une personne inconsciente peut s'étouffer : risque d'arrêt respiratoire puis d'arrêt cardiaque.", "pp28": "Sur le dos, la langue retombe dans la gorge et les liquides ne s'écoulent pas : risque d'étouffement.", "pp29": "Le DAE analyse le cœur avant de choquer : il ne délivre un choc que si c'est nécessaire.", "pp30": "Une hémorragie fait perdre beaucoup de sang : le cœur ne peut plus bien irriguer le corps (détresse circulatoire), puis il peut s'arrêter.", "pp31": "Signes : ne répond pas, ne réagit pas, ne respire pas ou respire anormalement.", "pp32": "Le DAE est un appareil qui peut rétablir une activité cardiaque normale chez une victime en arrêt cardiaque.", "pp33": "Arrêt cardiaque : le cœur ne fonctionne plus ou fonctionne de façon désordonnée.", "pp34": "Sans intervention, la victime meurt en quelques minutes : d'où l'alerte et le massage immédiats.", "pp35": "Hémorragie : perte de sang prolongée qui ne s'arrête pas (un mouchoir est imbibé en quelques secondes)."};
+const RETIRED=new Set(["vi5","vi21","sr9","sr38"]),EXAMOFF=new Set(["pp11","pp18"]);
+const CARDS=[];
+Object.keys(RAW).forEach(d=>RAW[d].forEach(r=>CARDS.push({id:d+r[0],d:d,n:r[1],q:r[2],a:r[3],t:r[4],x:EXPL[d+r[0]]||""})));
+const BYID={};CARDS.forEach(c=>BYID[c.id]=c);
+CHAPS.forEach((c,i)=>{c.key="c"+i;c.cards=c.ids.map(n=>c.deck+n)});
+
+const KEY="permis-b-questions-v1";
+let S={cards:{},exams:[]};
+try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);if(o&&o.cards)S=Object.assign(S,o)}}catch(e){}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){saveLocal()}
+function syncText(){return "Ta progression est enregistrée dans ce navigateur, sur cet appareil. Elle n\'est pas partagée entre ton téléphone et ton ordinateur (voir « Changer d\'appareil » dans Réviser). Aucun compte, aucune donnée envoyée."}
+const DAY=86400000,INTERVALS=[0,0,1,3,7,14];
+const box=id=>(S.cards[id]&&S.cards[id].b)||0;
+const status=id=>{const b=box(id);return b===0?"new":(b>=4?"done":"wip")};
+const isDue=id=>{const c=S.cards[id];return !!c&&Date.now()-c.t>=INTERVALS[c.b]*DAY};
+function applyGrade(id,g){
+  let b=box(id);
+  if(g===1)b=1;else if(g===2)b=b===0?1:b;else b=b===0?2:Math.min(5,b+1);
+  S.cards[id]={b:b,t:Date.now()};save();
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function stats(ids){const s={new:0,wip:0,done:0,due:0,total:ids.length};ids.forEach(id=>{s[status(id)]++;if(isDue(id))s.due++});return s}
+function barHTML(s){const t=s.total||1;return '<div class="bar" role="img" aria-label="'+s.done+' acquises, '+s.wip+' en cours, '+s.new+' nouvelles"><i class="b-done" style="width:'+(s.done/t*100)+'%"></i><i class="b-wip" style="width:'+(s.wip/t*100)+'%"></i></div>'}
+function legendHTML(s){return '<div class="legend"><span><b>'+s.done+'</b> acquises</span><span><b>'+s.wip+'</b> en cours</span><span><b>'+s.new+'</b> nouvelles</span>'+(s.due?'<span><b>'+s.due+'</b> à revoir</span>':'')+'</div>'}
+const NEUT_PS={11:12,18:19,59:60,76:77,97:98};
+function lookup(n){
+  let vn=n,sn=n,pn=n;
+  if(n===9){vn=11;sn=11}
+  if(n===41){vn=43;sn=43}
+  if(NEUT_PS[n])pn=NEUT_PS[n];
+  const v=CARDS.find(c=>(c.d==="vi"||c.d==="ve")&&c.n.indexOf(vn)>-1);
+  const s=CARDS.find(c=>c.d==="sr"&&c.n.indexOf(sn)>-1);
+  const p=CARDS.find(c=>c.d==="pp"&&c.n.indexOf(pn)>-1);
+  return [v,s,p].map(c=>c&&c.id);
+}
+function neutralNote(n){
+  if(n===9||n===41){const r=n===9?11:43;return "Ce numéro est neutralisé depuis avril 2024 : l'inspecteur pose la vérification et la question de sécurité routière du n° "+r+", puis la question de premiers secours du n° "+n+"."}
+  if(NEUT_PS[n])return "La question de premiers secours de ce numéro (position latérale de sécurité) est neutralisée : c'est celle du n° "+NEUT_PS[n]+" qui est posée."
+  if(n===17||n===77)return "Si la voiture d'examen n'a pas d'éthylotest, l'inspecteur peut neutraliser la vérification."
+  if(n===33||n===57)return "Si la voiture n'a pas cet équipement, l'inspecteur neutralise la vérification."
+  return ""
+}
+
+const TABS=[["accueil","Accueil"],["apprendre","Apprendre"],["reviser","Réviser"],["examen","Examen blanc"]];
+let XFMSG="";let V={tab:"accueil"},SES=null,EX={n:null,digits:null,rolling:false},FILTER="all",RESET=false;
+const app=document.getElementById("app"),tabsEl=document.getElementById("tabs");
+
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function odoHTML(digits,hot){return '<div class="odo" aria-label="Compteur kilométrique">'+digits.map((d,i)=>'<span class="d'+(i>=3?' hot':'')+'">'+d+'</span>').join('')+'<small>km</small></div>'}
+
+function accueilHTML(){
+  const keys=[["30 m","Triangle de pré-signalisation, hors autoroute, ou avant un virage ou un sommet de côte. Jamais sur autoroute."],["150 m","Distance de visibilité des feux de position par temps clair."],["0,2 g/l","Taux maximal en période probatoire. Autant dire 0 verre."],["5 jours","Délai pour transmettre le constat amiable à l'assureur."],["10 ans","Âge à partir duquel un enfant peut, en règle générale, s'asseoir à l'avant. C'est aussi l'âge dès lequel on peut se former aux premiers secours."],["18 · 15 · 112","Pompiers, SAMU, urgences valables dans toute l'Union européenne."],["Chaque mois","Contrôle de la pression des pneus, et avant chaque long trajet."],["N · N · L","Trois informations aux secours : Numéro d'appel, Nature du problème, Localisation précise."],["A · M · D","Arrêt cardiaque : Alerter, Masser, Défibriller."],["Rouge / orange","Rouge : anomalie ou danger. Orange : information importante."]];
+  const st=stats(CARDS.map(c=>c.id));
+  return '<section class="panel"><h1>Les questions orales du permis B</h1><p class="lead">Le jour de l\'examen, l\'inspecteur te pose 3 questions. Cet outil gratuit te les fait toutes apprendre, puis te laisse t\'entraîner comme le jour J.</p>'
+  +'<div class="row"><button class="btn primary" data-act="tab" data-v="apprendre">Commencer à apprendre</button><button class="btn" data-act="tab" data-v="examen">Faire un examen blanc</button></div>'
+  +'<p class="small muted">Sans compte et sans publicité. Ta progression reste sur ton appareil.</p></section>'
+  +'<section class="panel"><h2>Les 3 questions du jour J</h2><ul class="steps"><li><span class="n">1</span><p><b>Une vérification</b>, intérieure ou extérieure. Tu montres ou tu expliques sur la voiture.</p></li><li><span class="n">2</span><p><b>Une question de sécurité routière.</b> Réponse orale, en une ou deux phrases.</p></li><li><span class="n">3</span><p><b>Une question de premiers secours.</b> Réponse orale.</p></li></ul>'
+  +'<p class="small muted">Chaque bonne réponse vaut 1 point, soit 3 au maximum. Une mauvaise réponse n\'est pas éliminatoire.</p></section>'
+  +'<section class="panel"><h2>Comment l\'examinateur choisit</h2><p>Il lit les deux derniers chiffres du compteur kilométrique de la voiture d\'examen. Ces deux chiffres donnent le numéro de question, de 1 à 100.</p>'+odoHTML([5,4,7,2,6])+'<p class="small muted">Exemple : 54 726 km, donc question 26. Si la voiture n\'a pas l\'équipement demandé (régulateur, éthylotest), la question peut être neutralisée et une autre est posée.</p></section>'
+  +'<section class="panel"><h2>Comment utiliser l\'outil</h2><ul class="steps"><li><span class="n">1</span><p><b>Apprendre.</b> 18 chapitres par thème. Pour chaque carte, tu réponds à voix haute, tu révèles la réponse, puis tu te notes.</p></li><li><span class="n">2</span><p><b>Réviser.</b> Des séries de 15 cartes mélangées. Les cartes ratées reviennent vite, les cartes sues de moins en moins souvent.</p></li><li><span class="n">3</span><p><b>Examen blanc.</b> Tu tires un numéro comme avec le compteur, puis tu réponds aux 3 questions correspondantes et obtiens un score sur 3.</p></li></ul>'
+  +'<p class="small muted">Vise 15 minutes par jour. Dans les chapitres sur les vérifications, un pictogramme et un schéma t\'aident à te repérer dans la voiture.</p>'+barHTML(st)+legendHTML(st)+'</section>'
+  +'<section class="panel"><h2>Méthode pour apprendre vite</h2><ul class="tips"><li><b>Dis la réponse à voix haute</b> avant de la révéler. Se tester retient bien mieux que relire.</li><li><b>Apprends par thèmes</b> (éclairage, pneus, fluides, hémorragie). Les questions d\'un même thème se répondent entre elles.</li><li><b>Touche ta voiture d\'auto-école.</b> Repère chaque commande, voyant et bouchon : leur place change d\'un modèle à l\'autre.</li><li><b>Réponds en phrase complète</b> : « Le liquide de frein se contrôle sous le capot, entre le mini et le maxi. »</li></ul></section>'
+  +'<section class="panel"><h2>Chiffres et réflexes à connaître par cœur</h2><div class="keys">'+keys.map(k=>'<div class="key"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>').join('')+'</div></section>'
+  +'<section class="panel"><h2>Ce qui a changé récemment</h2><ul class="tips"><li><b>Numéros 9 et 41 neutralisés depuis avril 2024.</b> Ces deux numéros concernaient la carte grise (9) et l\'attestation d\'assurance (41) : ils ne sont plus posés. Avec 09 au compteur, l\'inspecteur pose la vérification et la question de sécurité du n° 11, puis les premiers secours du n° 9. Avec 41 : vérification et sécurité du n° 43, puis premiers secours du n° 41.</li><li><b>Cinq questions de premiers secours sur la position latérale de sécurité sont neutralisées</b> (numéros 11, 18, 59, 76, 97). L\'inspecteur pose alors la question de premiers secours du numéro suivant. Cette information vient d\'une seule source d\'auto-école : vérifie auprès de ton enseignant.</li><li><b>Éthylotest (n° 17 et 77) et régulateur (n° 33).</b> L\'éthylotest n\'est plus obligatoire dans les véhicules. Si la voiture n\'a pas l\'équipement, l\'inspecteur peut neutraliser la vérification.</li></ul><p class="small muted">Les cartes concernées sont signalées dans Apprendre et Examen blanc. L\'Examen blanc applique ces remplacements.</p></section>'
+  +'<div class="foot"><p><b>Sources et limites.</b> Dernière vérification : 19 octobre 2026. Les 100 numéros (vérification, sécurité routière, premiers secours) ont été comparés ligne à ligne avec les listes de la fédération ECF (juillet 2025), de Codes Rousseau, d\'Ornikar, de l\'auto-école Legacque (octobre 2025), de Verifplace et d\'une auto-école de Corte. Les neutralisations viennent d\'un message de la DSR (Délégation à la sécurité routière) republié par un syndicat d\'inspecteurs, <a href="https://saneer-sr.org/actualites/11-avril-2024-dsr-mise-a-jour-de-la-banque-de-verifications/" target="_blank" rel="noopener">SANEER-SR</a>. Je n\'ai pas trouvé de version publiée directement par l\'administration.</p><p><b>À savoir.</b> Cet outil est indépendant et n\'est lié à aucune administration ni auto-école. Les réponses sont formulées pour l\'apprentissage. En cas de doute, ton enseignant et la liste en vigueur font foi : elle peut changer d\'une session à l\'autre. Les pictogrammes et les schémas sont des repères types : leur forme et leur place varient selon la marque et le modèle de la voiture.</p><p>'+syncText()+'</p></div>';
+}
+
+function apprHTML(){
+  let h='<section class="panel"><h1>Apprendre par thèmes</h1><p class="lead">Choisis un chapitre. Chaque carte te pose la question, tu réponds à voix haute, puis tu te notes.</p></section>';
+  Object.keys(DECKS).forEach(d=>{
+    const ids=CARDS.filter(c=>c.d===d).map(c=>c.id),st=stats(ids);
+    h+='<section class="panel deck"><div><h2>'+DECKS[d].name+'</h2><p class="small muted">'+ids.length+' cartes</p></div>'+barHTML(st)+legendHTML(st);
+    CHAPS.forEach(ch=>{if(ch.deck!==d)return;const s=stats(ch.cards);
+      h+='<div class="chap"><div><h3>'+ch.title+'</h3><p class="small muted">'+s.total+' cartes · '+s.done+' acquises</p></div><button class="btn'+(s.new===s.total?' primary':'')+'" data-act="chapter" data-v="'+ch.key+'">'+(s.new===s.total?'Étudier':'Revoir')+'</button></div>'});
+    h+='</section>';
+  });
+  return h;
+}
+
+function revHTML(){
+  const pool=CARDS.filter(c=>FILTER==="all"||c.d===FILTER).map(c=>c.id),st=stats(pool);
+  const chips=[["all","Tout"]].concat(Object.keys(DECKS).map(d=>[d,DECKS[d].short]));
+  let h='<section class="panel"><h1>Réviser</h1><p class="lead">Une série mélange les cartes à revoir et quelques nouvelles. Les thèmes sont entrecroisés, comme à l\'examen.</p>'
+   +'<div class="chips" role="group" aria-label="Filtrer par thème">'+chips.map(c=>'<button class="chip" aria-pressed="'+(FILTER===c[0])+'" data-act="filter" data-v="'+c[0]+'">'+c[1]+'</button>').join('')+'</div>'
+   +barHTML(st)+legendHTML(st)
+   +'<div class="row"><button class="btn primary" data-act="series">Lancer une série de 15</button></div></section>';
+  h+='<section class="panel"><h2>Progression par thème</h2>';
+  Object.keys(DECKS).forEach(d=>{const s=stats(CARDS.filter(c=>c.d===d).map(c=>c.id));h+='<div class="deck"><div class="meta"><b>'+DECKS[d].name+'</b><span class="qn">'+s.done+' / '+s.total+'</span></div>'+barHTML(s)+'</div>'});
+  h+='<p class="small muted">Une carte devient acquise après plusieurs bonnes réponses espacées dans le temps.</p><p class="small muted">'+syncText()+'</p>'
+   +'</section><section class="panel"><h2>Changer d\'appareil</h2><p class="small muted">Ta progression reste dans le navigateur utilisé. Pour la retrouver ailleurs (ou si tu vides les données du site), copie ce code, puis colle-le sur l\'autre appareil.</p><div class="row"><button class="btn" data-act="export">Générer mon code</button><button class="btn" data-act="import">Importer ce code</button></div><textarea class="input" id="xfer" rows="3" placeholder="Code de progression" style="width:100%"></textarea>'+'<p class="small" id="xmsg" role="status">'+XFMSG+'</p>'+'</section><section class="panel"><div class="row"><button class="btn" data-act="reset">'+(RESET?'Confirmer la remise à zéro':'Remettre à zéro')+'</button>'+(RESET?'<button class="btn" data-act="resetcancel">Annuler</button>':'')+'</div></section>';
+  return h;
+}
+
+function exHTML(){
+  const hist=(S.exams||[]).slice(-5).reverse();
+  let h='<section class="panel"><h1>Examen blanc</h1><p class="lead">Tire un numéro comme le fait l\'examinateur avec le compteur. Tu réponds aux trois questions qui lui correspondent.</p>';
+  const dg=EX.digits||[5,4,7,"–","–"];
+  h+='<div id="odo">'+odoHTML(dg)+'</div>';
+  if(EX.n&&!EX.rolling){h+='<p class="lead">Question n° <b>'+EX.n+'</b></p>'+(neutralNote(EX.n)?'<p class="note">'+neutralNote(EX.n)+'</p>':'')+'<div class="row"><button class="btn primary" data-act="examstart">Passer les 3 questions</button><button class="btn" data-act="roll">Tirer un autre numéro</button></div>'}
+  else h+='<div class="row"><button class="btn primary" data-act="roll"'+(EX.rolling?' disabled':'')+'>Tirer le numéro</button></div>';
+  h+='<div class="row" style="align-items:center"><label for="exnum" class="small muted">Ou choisis un numéro</label><input class="input" id="exnum" type="number" min="1" max="100" inputmode="numeric" placeholder="1-100"><button class="btn" data-act="pick">Tester</button></div>'
+   +'<p class="small muted">Dis chaque réponse à voix haute avant de la révéler. Une réponse incomplète compte comme fausse, comme à l\'examen.</p></section>';
+  if(hist.length)h+='<section class="panel"><h2>Derniers tirages</h2><ul class="res">'+hist.map(x=>'<li><b>Question n° '+x.n+'</b><span class="muted">'+x.pts+' point'+(x.pts>1?'s':'')+' sur 3</span></li>').join('')+'</ul></section>';
+  return h;
+}
+
+function startSession(title,ids,mode,extra){
+  SES=Object.assign({title:title,queue:ids.slice(),i:0,rev:false,retry:{},log:{1:0,2:0,3:0},mode:mode,total:ids.length,results:[]},extra||{});
+  window.scrollTo(0,0);render();
+}
+function sesHTML(){
+  const s=SES,exam=s.mode==="exam";
+  if(s.i>=s.queue.length){
+    if(exam){
+      const pts=s.results.filter(r=>r.ok).length;
+      return '<section class="card"><span class="label">Résultat · question n° '+s.n+'</span><div class="score">'+pts+' / 3</div><ul class="res">'+s.results.map(r=>{const c=BYID[r.id];return '<li class="'+(r.ok?'ok':'ko')+'"><span class="tag" style="align-self:flex-start">'+DECKS[c.d].short+'</span><b>'+esc(c.q)+'</b>'+(r.ok?'<span>Juste</span>':'<span>'+esc(c.a)+'</span>')+'</li>'}).join('')+'</ul><div class="row"><button class="btn primary" data-act="examagain">Nouveau tirage</button><button class="btn" data-act="exit">Retour</button></div></section>';
+    }
+    const l=s.log;
+    return '<section class="card"><span class="label">Série terminée</span><h2>'+s.title+'</h2><p class="lead">'+l[3]+' sue'+(l[3]>1?'s':'')+', '+l[2]+' presque, '+l[1]+' à revoir.</p><div class="row">'+(s.mode==="series"?'<button class="btn primary" data-act="series">Une autre série</button>':'')+'<button class="btn'+(s.mode==="series"?'':' primary')+'" data-act="exit">Retour</button></div></section>';
+  }
+  const c=BYID[s.queue[s.i]],pct=(s.i/s.queue.length)*100;
+  let h=(exam&&s.i===0&&neutralNote(s.n)?'<p class="note">'+neutralNote(s.n)+'</p>':'')+'<div class="prog"><button class="btn" data-act="exit" aria-label="Quitter la série">←</button><div class="bar"><i class="b-done" style="width:'+pct+'%;background:var(--accent)"></i></div><span class="qn">'+(s.i+1)+' / '+s.queue.length+'</span></div>';
+  h+='<article class="card"><div class="meta"><span class="tag">'+(exam?'Question '+(s.i+1)+' sur 3 · ':'')+DECKS[c.d].short+'</span><span class="qn">n° '+c.n.join(' · ')+'</span></div><h2 class="q">'+esc(c.q)+'</h2>'+(RETIRED.has(c.id)?'<p class="note">Question neutralisée depuis avril 2024 : l\'inspecteur ne la pose plus.</p>':EXAMOFF.has(c.id)?'<p class="note">Question neutralisée à l\'examen : l\'inspecteur pose celle du numéro suivant. À connaître quand même.</p>':'');
+  if(!s.rev)h+='<p class="muted">Dis ta réponse à voix haute, puis révèle.</p><button class="btn primary" data-act="reveal" id="reveal">Voir la réponse <kbd class="qn">espace</kbd></button>';
+  else{
+    h+='<div class="ans"><p>'+esc(c.a)+'</p>'+(c.x?'<p class="why"><b>Pourquoi : </b>'+esc(c.x)+'</p>':'')+(c.t?'<p class="tip">'+esc(c.t)+'</p>':'')+'</div>';h+=figHTML(c.id);
+    h+=exam?'<div class="grades two"><button class="g g1" data-act="grade" data-v="1">Faux ou incomplet <kbd>1</kbd></button><button class="g g3" data-act="grade" data-v="3">Juste <kbd>3</kbd></button></div>'
+      :'<div class="grades"><button class="g g1" data-act="grade" data-v="1">Pas encore <kbd>1</kbd></button><button class="g g2" data-act="grade" data-v="2">Presque <kbd>2</kbd></button><button class="g g3" data-act="grade" data-v="3">Je savais <kbd>3</kbd></button></div>';
+  }
+  return h+'</article>';
+}
+
+function gradeNow(g){
+  const s=SES;if(!s||s.i>=s.queue.length||!s.rev)return;
+  const id=s.queue[s.i];applyGrade(id,g);s.log[g]++;
+  if(s.mode==="exam")s.results.push({id:id,ok:g===3});
+  else if(g===1&&!s.retry[id]){s.queue.push(id);s.retry[id]=1}
+  s.i++;s.rev=false;
+  if(s.mode==="exam"&&s.i>=s.queue.length){const pts=s.results.filter(r=>r.ok).length;S.exams=(S.exams||[]).concat([{n:s.n,pts:pts,t:Date.now()}]).slice(-30);save()}
+  render();
+}
+function buildSeries(){
+  const pool=CARDS.filter(c=>(FILTER==="all"||c.d===FILTER)&&!RETIRED.has(c.id)).map(c=>c.id);
+  const due=pool.filter(isDue).sort((a,b)=>box(a)-box(b)).slice(0,15);
+  const fresh=shuffle(pool.filter(id=>status(id)==="new")).slice(0,15-due.length);
+  let q=shuffle(due.concat(fresh));
+  if(!q.length)q=shuffle(pool).slice(0,15);
+  return q;
+}
+function startExam(n){
+  const ids=lookup(n);if(ids.some(x=>!x))return;
+  startSession("Question n° "+n,ids,"exam",{n:n});
+}
+function roll(){
+  if(EX.rolling)return;
+  const lead=[1,2,3].map(()=>Math.floor(Math.random()*10));
+  let n=1+Math.floor(Math.random()*100);
+  const fin=String(n===100?0:n).padStart(2,"0").split("").map(Number);
+  const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){EX.n=n;EX.digits=lead.concat(fin);EX.rolling=false;render();return}
+  EX.rolling=true;EX.n=null;EX.digits=lead.concat(["0","0"]);render();
+  let k=0;const t=setInterval(()=>{
+    k++;const last=k>=14;
+    EX.digits=lead.concat(last?fin:[Math.floor(Math.random()*10),Math.floor(Math.random()*10)]);
+    const el=document.getElementById("odo");if(el)el.innerHTML=odoHTML(EX.digits);
+    if(last){clearInterval(t);EX.rolling=false;EX.n=n;render()}
+  },90);
+}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b||b.disabled)return;
+  const a=b.dataset.act,v=b.dataset.v;
+  switch(a){
+    case "tab":SES=null;V.tab=v;window.scrollTo(0,0);render();break;
+    case "chapter":{const ch=CHAPS.find(c=>c.key===v);V.tab="apprendre";startSession(ch.title,ch.cards,"chapter");break}
+    case "filter":FILTER=v;render();break;
+    case "series":V.tab="reviser";startSession("Série de révision",buildSeries(),"series");break;
+    case "reveal":SES.rev=true;render();break;
+    case "grade":gradeNow(Number(v));break;
+    case "exit":SES=null;window.scrollTo(0,0);render();break;
+    case "export":{const el=document.getElementById("xfer");try{const code=btoa(unescape(encodeURIComponent(JSON.stringify(S))));el.value=code;el.select();const mm=document.getElementById("xmsg");mm.textContent="Code généré. Copie-le (Ctrl+C) puis colle-le sur l'autre appareil.";try{navigator.clipboard&&navigator.clipboard.writeText(code).then(()=>{mm.textContent="Code copié. Colle-le sur l'autre appareil."}).catch(()=>{})}catch(_){}}catch(_){document.getElementById("xmsg").textContent="Impossible de générer le code."}break}
+    case "import":{const el=document.getElementById("xfer");try{const o=JSON.parse(decodeURIComponent(escape(atob((el.value||"").trim()))));if(!o||typeof o.cards!=="object")throw 0;S=Object.assign({cards:{},exams:[]},o);saveLocal();XFMSG="Progression importée.";render()}catch(_){XFMSG="Code invalide. Vérifie que tu l'as copié en entier.";render()}break}
+    case "reset":if(RESET){S={cards:{},exams:[],resetAt:Date.now()};save();RESET=false}else RESET=true;render();break;
+    case "resetcancel":RESET=false;render();break;
+    case "roll":roll();break;
+    case "pick":{const el=document.getElementById("exnum"),n=parseInt(el&&el.value,10);if(n>=1&&n<=100){EX.n=n;startExam(n)}else if(el)el.focus();break}
+    case "examstart":startExam(EX.n);break;
+    case "examagain":SES=null;EX.n=null;EX.digits=null;roll();break;
+  }
+});
+document.addEventListener("keydown",e=>{
+  if(!SES||/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
+  if(e.key===" "&&!SES.rev&&SES.i<SES.queue.length){e.preventDefault();SES.rev=true;render()}
+  else if(SES.rev&&(e.key==="1"||e.key==="2"||e.key==="3")){const g=Number(e.key);if(SES.mode==="exam"&&g===2)return;gradeNow(g)}
+});
+
+
+function render(){
+  tabsEl.innerHTML=TABS.map(t=>'<button class="tab" role="tab" aria-selected="'+(V.tab===t[0])+'" data-act="tab" data-v="'+t[0]+'">'+t[1]+'</button>').join("");
+  app.innerHTML=SES?sesHTML():({accueil:accueilHTML,apprendre:apprHTML,reviser:revHTML,examen:exHTML})[V.tab]();
+  const r=document.getElementById("reveal");if(r&&SES)r.focus({preventScroll:true});
+}
+render();
+</script>
+</body>
+</html>
