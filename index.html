@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Questions du permis B</title>
 <meta name="description" content="Apprends et révise gratuitement les 100 questions orales de l'examen pratique du permis B, puis passe un examen blanc avec tirage au compteur kilométrique.">
+<meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:title" content="Questions du permis B : entraîne-toi comme le jour J"><meta property="og:description" content="Les 100 questions orales du permis B, des explications claires et un examen blanc avec tirage au compteur. Gratuit, sans compte."><meta property="og:url" content="https://jin-12.github.io/questions-permis/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230B4CA0'/%3E%3Ctext x='32' y='46' font-family='Arial' font-weight='700' font-size='40' text-anchor='middle' fill='white'%3EB%3C/text%3E%3C/svg%3E">
 <style>
 /* Concept : un panneau d'autoroute (bleu, texte blanc) et un compteur kilométrique qui tire la question du jour. */
@@ -47,7 +48,7 @@ p{margin:0}
 .brand{display:flex;align-items:center;gap:10px}
 .sign{background:var(--accent);color:var(--accent-ink);font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:.04em;padding:2px 10px;border-radius:6px;border:2px solid var(--accent-ink);box-shadow:0 0 0 2px var(--accent)}
 .brand span.t{font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:.02em}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .tab{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 4px;font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:.02em;line-height:1.1;text-align:center}
 .tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 
@@ -119,6 +120,16 @@ ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .res .ok{border-color:var(--good);background:var(--good-soft)}
 .res .ko{border-color:var(--bad);background:var(--bad-soft)}
 .input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:96px;min-height:44px;font-family:var(--font-mono)}
+details.det{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+details.det summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+details.det summary::-webkit-details-marker{display:none}
+details.det summary::after{content:"+";font-family:var(--font-mono);font-size:20px;color:var(--accent)}
+details.det[open] summary::after{content:"\2013"}
+.detb{padding:0 18px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.facts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.facts li{padding-left:14px;position:relative}
+.facts li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.linkbtn{background:none;border:0;color:var(--accent);text-decoration:underline;font:inherit;padding:4px 0;cursor:pointer;text-align:left}
 .foot{font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:6px;margin-top:8px}
 .foot a{color:var(--accent)}
 @media (prefers-reduced-motion:no-preference){.card,.panel{animation:rise .18s ease-out}@keyframes rise{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}}
@@ -134,11 +145,13 @@ figcaption{font-size:14px;color:var(--muted);text-align:center;line-height:1.35}
 .bgz{fill:var(--bg);stroke:var(--line);stroke-width:1.5}.sub{fill:none;stroke:var(--line);stroke-width:1.5}.sp{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
 .dl{font:600 12px var(--font-body);fill:var(--muted)}.dl.hl{fill:var(--accent)}
 
-.tabs{grid-template-columns:repeat(4,1fr)}
+.tabs{grid-template-columns:repeat(3,1fr)}
 .tab{padding:8px 2px;font-size:17px}
 @media (max-width:420px){.tab{font-size:15px}}
 
 </style>
+<script data-goatcounter="https://jin-12.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <header class="top"><div class="top-in">
@@ -493,29 +506,12 @@ function neutralNote(n){
   return ""
 }
 
-const TABS=[["accueil","Accueil"],["apprendre","Apprendre"],["reviser","Réviser"],["examen","Examen blanc"]];
-let XFMSG="";let V={tab:"accueil"},SES=null,EX={n:null,digits:null,rolling:false},FILTER="all",RESET=false;
+const TABS=[["examen","Examen blanc"],["apprendre","Apprendre"],["reviser","Réviser"]];
+let XFMSG="";const DET={};let V={tab:"examen"},SES=null,EX={n:null,digits:null,rolling:false},FILTER="all",RESET=false;
 const app=document.getElementById("app"),tabsEl=document.getElementById("tabs");
 
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function odoHTML(digits,hot){return '<div class="odo" aria-label="Compteur kilométrique">'+digits.map((d,i)=>'<span class="d'+(i>=3?' hot':'')+'">'+d+'</span>').join('')+'<small>km</small></div>'}
-
-function accueilHTML(){
-  const keys=[["30 m","Triangle de pré-signalisation, hors autoroute, ou avant un virage ou un sommet de côte. Jamais sur autoroute."],["150 m","Distance de visibilité des feux de position par temps clair."],["0,2 g/l","Taux maximal en période probatoire. Autant dire 0 verre."],["5 jours","Délai pour transmettre le constat amiable à l'assureur."],["10 ans","Âge à partir duquel un enfant peut, en règle générale, s'asseoir à l'avant. C'est aussi l'âge dès lequel on peut se former aux premiers secours."],["18 · 15 · 112","Pompiers, SAMU, urgences valables dans toute l'Union européenne."],["Chaque mois","Contrôle de la pression des pneus, et avant chaque long trajet."],["N · N · L","Trois informations aux secours : Numéro d'appel, Nature du problème, Localisation précise."],["A · M · D","Arrêt cardiaque : Alerter, Masser, Défibriller."],["Rouge / orange","Rouge : anomalie ou danger. Orange : information importante."]];
-  const st=stats(CARDS.map(c=>c.id));
-  return '<section class="panel"><h1>Les questions orales du permis B</h1><p class="lead">Le jour de l\'examen, l\'inspecteur te pose 3 questions. Cet outil gratuit te les fait toutes apprendre, puis te laisse t\'entraîner comme le jour J.</p>'
-  +'<div class="row"><button class="btn primary" data-act="tab" data-v="apprendre">Commencer à apprendre</button><button class="btn" data-act="tab" data-v="examen">Faire un examen blanc</button></div>'
-  +'<p class="small muted">Sans compte et sans publicité. Ta progression reste sur ton appareil.</p></section>'
-  +'<section class="panel"><h2>Les 3 questions du jour J</h2><ul class="steps"><li><span class="n">1</span><p><b>Une vérification</b>, intérieure ou extérieure. Tu montres ou tu expliques sur la voiture.</p></li><li><span class="n">2</span><p><b>Une question de sécurité routière.</b> Réponse orale, en une ou deux phrases.</p></li><li><span class="n">3</span><p><b>Une question de premiers secours.</b> Réponse orale.</p></li></ul>'
-  +'<p class="small muted">Chaque bonne réponse vaut 1 point, soit 3 au maximum. Une mauvaise réponse n\'est pas éliminatoire.</p></section>'
-  +'<section class="panel"><h2>Comment l\'examinateur choisit</h2><p>Il lit les deux derniers chiffres du compteur kilométrique de la voiture d\'examen. Ces deux chiffres donnent le numéro de question, de 1 à 100.</p>'+odoHTML([5,4,7,2,6])+'<p class="small muted">Exemple : 54 726 km, donc question 26. Si la voiture n\'a pas l\'équipement demandé (régulateur, éthylotest), la question peut être neutralisée et une autre est posée.</p></section>'
-  +'<section class="panel"><h2>Comment utiliser l\'outil</h2><ul class="steps"><li><span class="n">1</span><p><b>Apprendre.</b> 18 chapitres par thème. Pour chaque carte, tu réponds à voix haute, tu révèles la réponse, puis tu te notes.</p></li><li><span class="n">2</span><p><b>Réviser.</b> Des séries de 15 cartes mélangées. Les cartes ratées reviennent vite, les cartes sues de moins en moins souvent.</p></li><li><span class="n">3</span><p><b>Examen blanc.</b> Tu tires un numéro comme avec le compteur, puis tu réponds aux 3 questions correspondantes et obtiens un score sur 3.</p></li></ul>'
-  +'<p class="small muted">Vise 15 minutes par jour. Dans les chapitres sur les vérifications, un pictogramme et un schéma t\'aident à te repérer dans la voiture.</p>'+barHTML(st)+legendHTML(st)+'</section>'
-  +'<section class="panel"><h2>Méthode pour apprendre vite</h2><ul class="tips"><li><b>Dis la réponse à voix haute</b> avant de la révéler. Se tester retient bien mieux que relire.</li><li><b>Apprends par thèmes</b> (éclairage, pneus, fluides, hémorragie). Les questions d\'un même thème se répondent entre elles.</li><li><b>Touche ta voiture d\'auto-école.</b> Repère chaque commande, voyant et bouchon : leur place change d\'un modèle à l\'autre.</li><li><b>Réponds en phrase complète</b> : « Le liquide de frein se contrôle sous le capot, entre le mini et le maxi. »</li></ul></section>'
-  +'<section class="panel"><h2>Chiffres et réflexes à connaître par cœur</h2><div class="keys">'+keys.map(k=>'<div class="key"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>').join('')+'</div></section>'
-  +'<section class="panel"><h2>Ce qui a changé récemment</h2><ul class="tips"><li><b>Numéros 9 et 41 neutralisés depuis avril 2024.</b> Ces deux numéros concernaient la carte grise (9) et l\'attestation d\'assurance (41) : ils ne sont plus posés. Avec 09 au compteur, l\'inspecteur pose la vérification et la question de sécurité du n° 11, puis les premiers secours du n° 9. Avec 41 : vérification et sécurité du n° 43, puis premiers secours du n° 41.</li><li><b>Cinq questions de premiers secours sur la position latérale de sécurité sont neutralisées</b> (numéros 11, 18, 59, 76, 97). L\'inspecteur pose alors la question de premiers secours du numéro suivant. Cette information vient d\'une seule source d\'auto-école : vérifie auprès de ton enseignant.</li><li><b>Éthylotest (n° 17 et 77) et régulateur (n° 33).</b> L\'éthylotest n\'est plus obligatoire dans les véhicules. Si la voiture n\'a pas l\'équipement, l\'inspecteur peut neutraliser la vérification.</li></ul><p class="small muted">Les cartes concernées sont signalées dans Apprendre et Examen blanc. L\'Examen blanc applique ces remplacements.</p></section>'
-  +'<div class="foot"><p><b>Sources et limites.</b> Dernière vérification : 19 octobre 2026. Les 100 numéros (vérification, sécurité routière, premiers secours) ont été comparés ligne à ligne avec les listes de la fédération ECF (juillet 2025), de Codes Rousseau, d\'Ornikar, de l\'auto-école Legacque (octobre 2025), de Verifplace et d\'une auto-école de Corte. Les neutralisations viennent d\'un message de la DSR (Délégation à la sécurité routière) republié par un syndicat d\'inspecteurs, <a href="https://saneer-sr.org/actualites/11-avril-2024-dsr-mise-a-jour-de-la-banque-de-verifications/" target="_blank" rel="noopener">SANEER-SR</a>. Je n\'ai pas trouvé de version publiée directement par l\'administration.</p><p><b>À savoir.</b> Cet outil est indépendant et n\'est lié à aucune administration ni auto-école. Les réponses sont formulées pour l\'apprentissage. En cas de doute, ton enseignant et la liste en vigueur font foi : elle peut changer d\'une session à l\'autre. Les pictogrammes et les schémas sont des repères types : leur forme et leur place varient selon la marque et le modèle de la voiture.</p><p>'+syncText()+'</p></div>';
-}
 
 function apprHTML(){
   let h='<section class="panel"><h1>Apprendre par thèmes</h1><p class="lead">Choisis un chapitre. Chaque carte te pose la question, tu réponds à voix haute, puis tu te notes.</p></section>';
@@ -543,16 +539,29 @@ function revHTML(){
   return h;
 }
 
+function det(k,title,body){return '<details class="det" data-k="'+k+'"'+(DET[k]?' open':'')+'><summary>'+title+'</summary><div class="detb">'+body+'</div></details>'}
 function exHTML(){
   const hist=(S.exams||[]).slice(-5).reverse();
-  let h='<section class="panel"><h1>Examen blanc</h1><p class="lead">Tire un numéro comme le fait l\'examinateur avec le compteur. Tu réponds aux trois questions qui lui correspondent.</p>';
+  const keys=[["30 m","Triangle de pré-signalisation, hors autoroute, ou avant un virage ou un sommet de côte. Jamais sur autoroute."],["150 m","Distance de visibilité des feux de position par temps clair."],["0,2 g/l","Taux maximal en période probatoire. Autant dire 0 verre."],["5 jours","Délai pour transmettre le constat amiable à l'assureur."],["10 ans","Âge à partir duquel un enfant peut, en règle générale, s'asseoir à l'avant. C'est aussi l'âge dès lequel on peut se former aux premiers secours."],["18 · 15 · 112","Pompiers, SAMU, urgences valables dans toute l'Union européenne."],["Chaque mois","Contrôle de la pression des pneus, et avant chaque long trajet."],["N · N · L","Trois informations aux secours : Numéro d'appel, Nature du problème, Localisation précise."],["A · M · D","Arrêt cardiaque : Alerter, Masser, Défibriller."],["Rouge / orange","Rouge : anomalie ou danger. Orange : information importante."]];
+  const st=stats(CARDS.filter(c=>!RETIRED.has(c.id)).map(c=>c.id));
+  let h='<section class="panel hero"><h1>Les questions orales du permis B</h1><p class="lead">Le jour de l\'examen, l\'inspecteur te pose 3 questions : une vérification sur la voiture, une de sécurité routière et une de premiers secours. Entraîne-toi comme au jour J, gratuitement et sans compte.</p>'
+   +'<ul class="facts"><li><b>3 questions</b> tirées parmi 100 numéros possibles.</li><li><b>1 point</b> par bonne réponse, soit 3 au maximum.</li><li>Une mauvaise réponse <b>n\'est pas éliminatoire</b>.</li></ul></section>';
+  h+='<section class="panel"><h2>Examen blanc</h2><p>L\'inspecteur lit les deux derniers chiffres du compteur kilométrique de la voiture : c\'est ton numéro, de 1 à 100. Tire le tien, puis réponds aux trois questions à voix haute avant de révéler chaque réponse.</p>';
   const dg=EX.digits||[5,4,7,"–","–"];
   h+='<div id="odo">'+odoHTML(dg)+'</div>';
   if(EX.n&&!EX.rolling){h+='<p class="lead">Question n° <b>'+EX.n+'</b></p>'+(neutralNote(EX.n)?'<p class="note">'+neutralNote(EX.n)+'</p>':'')+'<div class="row"><button class="btn primary" data-act="examstart">Passer les 3 questions</button><button class="btn" data-act="roll">Tirer un autre numéro</button></div>'}
   else h+='<div class="row"><button class="btn primary" data-act="roll"'+(EX.rolling?' disabled':'')+'>Tirer le numéro</button></div>';
   h+='<div class="row" style="align-items:center"><label for="exnum" class="small muted">Ou choisis un numéro</label><input class="input" id="exnum" type="number" min="1" max="100" inputmode="numeric" placeholder="1-100"><button class="btn" data-act="pick">Tester</button></div>'
-   +'<p class="small muted">Dis chaque réponse à voix haute avant de la révéler. Une réponse incomplète compte comme fausse, comme à l\'examen.</p></section>';
+   +'<p class="small muted">Une réponse incomplète compte comme fausse, comme à l\'examen.</p>'
+   +'<p class="note">Mis à jour le 19 octobre 2026 : les numéros 9 et 41 et cinq questions de premiers secours sont neutralisés. <button class="linkbtn" data-act="opendet" data-v="changes">Voir le détail</button></p></section>';
   if(hist.length)h+='<section class="panel"><h2>Derniers tirages</h2><ul class="res">'+hist.map(x=>'<li><b>Question n° '+x.n+'</b><span class="muted">'+x.pts+' point'+(x.pts>1?'s':'')+' sur 3</span></li>').join('')+'</ul></section>';
+  h+='<section class="panel"><h2>Tu ne connais pas encore les réponses ?</h2><p>Commence par apprendre les 100 numéros par thèmes, puis révise avec des séries mélangées. Les questions ratées reviennent plus souvent.</p>'+barHTML(st)+legendHTML(st)+'<div class="row"><button class="btn primary" data-act="tab" data-v="apprendre">Apprendre par thèmes</button><button class="btn" data-act="tab" data-v="reviser">Réviser</button></div></section>';
+  h+=det('how','Comment utiliser l\'outil','<ul class="steps"><li><span class="n">1</span><p><b>Apprendre.</b> 18 chapitres par thème. Pour chaque carte, tu réponds à voix haute, tu révèles la réponse, puis tu te notes.</p></li><li><span class="n">2</span><p><b>Réviser.</b> Des séries de 15 cartes mélangées. Les cartes ratées reviennent vite, les cartes sues moins souvent.</p></li><li><span class="n">3</span><p><b>Examen blanc.</b> Tu tires un numéro comme avec le compteur, puis tu réponds aux 3 questions correspondantes et obtiens un score sur 3.</p></li></ul><p class="small muted">Exemple de compteur : 54 726 km, donc question n° 26.</p>'+odoHTML([5,4,7,2,6])+'<p class="small muted">Vise 15 minutes par jour. Dans les chapitres sur les vérifications, un pictogramme et un schéma t\'aident à te repérer dans la voiture.</p>')
+   +det('method','Méthode pour apprendre vite','<ul class="tips"><li><b>Dis la réponse à voix haute</b> avant de la révéler. Se tester retient bien mieux que relire.</li><li><b>Apprends par thèmes</b> (éclairage, pneus, fluides, hémorragie). Les questions d\'un même thème se répondent entre elles.</li><li><b>Touche ta voiture d\'auto-école.</b> Repère chaque commande, voyant et bouchon : leur place change d\'un modèle à l\'autre.</li><li><b>Réponds en phrase complète</b> : « Le liquide de frein se contrôle sous le capot, entre le mini et le maxi. »</li></ul>')
+   +det('keys','Chiffres et réflexes à connaître par cœur','<div class="keys">'+keys.map(k=>'<div class="key"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>').join('')+'</div>')
+   +det('changes','Ce qui a changé récemment','<ul class="tips"><li><b>Numéros 9 et 41 neutralisés depuis avril 2024.</b> Ils concernaient la carte grise (9) et l\'attestation d\'assurance (41). Avec 09 au compteur, l\'inspecteur pose la vérification et la question de sécurité du n° 11, puis les premiers secours du n° 9. Avec 41 : vérification et sécurité du n° 43, puis premiers secours du n° 41.</li><li><b>Cinq questions de premiers secours sur la position latérale de sécurité sont neutralisées</b> (numéros 11, 18, 59, 76, 97). L\'inspecteur pose alors la question de premiers secours du numéro suivant. Cette information vient d\'auto-écoles : vérifie auprès de ton enseignant.</li><li><b>Éthylotest (n° 17 et 77) et régulateur (n° 33).</b> L\'éthylotest n\'est plus obligatoire dans les véhicules. Si la voiture n\'a pas l\'équipement, l\'inspecteur peut neutraliser la vérification.</li></ul><p class="small muted">Les cartes concernées sont signalées dans Apprendre. L\'Examen blanc applique ces remplacements.</p>')
+   +det('phone','Utiliser sur ton téléphone','<p><b>iPhone (Safari) :</b> bouton Partager, puis « Sur l\'écran d\'accueil ».</p><p><b>Android (Chrome) :</b> menu ⋮, puis « Ajouter à l\'écran d\'accueil » ou « Installer l\'application ».</p><p class="small muted">Ta progression est enregistrée dans le navigateur de chaque appareil. Pour la transférer, utilise « Changer d\'appareil » dans Réviser.</p><div class="row"><button class="btn" data-act="share">Partager le site</button></div><p class="small" id="sharemsg" role="status"></p>')
+   +det('about','Sources, erreurs et confidentialité','<p><b>Sources.</b> Dernière vérification : 19 octobre 2026. Les 100 numéros ont été comparés ligne à ligne avec les listes de la fédération ECF (juillet 2025), de Codes Rousseau, d\'Ornikar, de l\'auto-école Legacque (octobre 2025), de Verifplace et d\'une auto-école de Corte. Les neutralisations viennent d\'un message de la DSR (Délégation à la sécurité routière) republié par un syndicat d\'inspecteurs, <a href="https://saneer-sr.org/actualites/11-avril-2024-dsr-mise-a-jour-de-la-banque-de-verifications/" target="_blank" rel="noopener">SANEER-SR</a>. Aucune version publiée directement par l\'administration n\'a été trouvée.</p><p><b>Une erreur ?</b> Sous chaque réponse, le bouton « Signaler une erreur » prépare un message à envoyer à la personne qui t\'a donné le lien. Tu peux aussi <a href="https://github.com/Jin-12/questions-permis/issues/new" target="_blank" rel="noopener">ouvrir un ticket sur GitHub</a>.</p><p><b>Limites.</b> Cet outil est indépendant et n\'est lié à aucune administration ni auto-école. Les réponses sont formulées pour l\'apprentissage. En cas de doute, ton enseignant et la liste en vigueur font foi. Les pictogrammes et schémas sont des repères types : leur forme et leur place varient selon le modèle de la voiture.</p><p><b>Confidentialité.</b> Les visites sont comptées de façon anonyme avec GoatCounter, sans cookie ni donnée personnelle. Ta progression reste dans ton navigateur : aucun compte, aucune donnée envoyée.</p>');
   return h;
 }
 
@@ -575,7 +584,7 @@ function sesHTML(){
   h+='<article class="card"><div class="meta"><span class="tag">'+(exam?'Question '+(s.i+1)+' sur 3 · ':'')+DECKS[c.d].short+'</span><span class="qn">n° '+c.n.join(' · ')+'</span></div><h2 class="q">'+esc(c.q)+'</h2>'+(RETIRED.has(c.id)?'<p class="note">Question neutralisée depuis avril 2024 : l\'inspecteur ne la pose plus.</p>':EXAMOFF.has(c.id)?'<p class="note">Question neutralisée à l\'examen : l\'inspecteur pose celle du numéro suivant. À connaître quand même.</p>':'');
   if(!s.rev)h+='<p class="muted">Dis ta réponse à voix haute, puis révèle.</p><button class="btn primary" data-act="reveal" id="reveal">Voir la réponse <kbd class="qn">espace</kbd></button>';
   else{
-    h+='<div class="ans"><p>'+esc(c.a)+'</p>'+(c.x?'<p class="why"><b>Pourquoi : </b>'+esc(c.x)+'</p>':'')+(c.t?'<p class="tip">'+esc(c.t)+'</p>':'')+'</div>';h+=figHTML(c.id);
+    h+='<div class="ans"><p>'+esc(c.a)+'</p>'+(c.x?'<p class="why"><b>Pourquoi : </b>'+esc(c.x)+'</p>':'')+(c.t?'<p class="tip">'+esc(c.t)+'</p>':'')+'</div>';h+=figHTML(c.id);h+='<p class="small"><button class="linkbtn" data-act="report" data-v="'+c.id+'">Signaler une erreur sur cette carte</button><span id="rptmsg" role="status"></span></p>';
     h+=exam?'<div class="grades two"><button class="g g1" data-act="grade" data-v="1">Faux ou incomplet <kbd>1</kbd></button><button class="g g3" data-act="grade" data-v="3">Juste <kbd>3</kbd></button></div>'
       :'<div class="grades"><button class="g g1" data-act="grade" data-v="1">Pas encore <kbd>1</kbd></button><button class="g g2" data-act="grade" data-v="2">Presque <kbd>2</kbd></button><button class="g g3" data-act="grade" data-v="3">Je savais <kbd>3</kbd></button></div>';
   }
@@ -632,6 +641,9 @@ document.addEventListener("click",e=>{
     case "exit":SES=null;window.scrollTo(0,0);render();break;
     case "export":{const el=document.getElementById("xfer");try{const code=btoa(unescape(encodeURIComponent(JSON.stringify(S))));el.value=code;el.select();const mm=document.getElementById("xmsg");mm.textContent="Code généré. Copie-le (Ctrl+C) puis colle-le sur l'autre appareil.";try{navigator.clipboard&&navigator.clipboard.writeText(code).then(()=>{mm.textContent="Code copié. Colle-le sur l'autre appareil."}).catch(()=>{})}catch(_){}}catch(_){document.getElementById("xmsg").textContent="Impossible de générer le code."}break}
     case "import":{const el=document.getElementById("xfer");try{const o=JSON.parse(decodeURIComponent(escape(atob((el.value||"").trim()))));if(!o||typeof o.cards!=="object")throw 0;S=Object.assign({cards:{},exams:[]},o);saveLocal();XFMSG="Progression importée.";render()}catch(_){XFMSG="Code invalide. Vérifie que tu l'as copié en entier.";render()}break}
+    case "opendet":{DET[v]=true;render();const el=document.querySelector('[data-k="'+v+'"]');if(el)el.scrollIntoView({behavior:"smooth",block:"start"});break}
+    case "share":{const url=location.href.split("#")[0],m=document.getElementById("sharemsg");const done=t=>{if(m)m.textContent=t};if(navigator.share){navigator.share({title:"Questions du permis B",text:"Entraîne-toi aux 100 questions orales du permis B avec un examen blanc.",url:url}).catch(()=>{})}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>done("Lien copié."),()=>done("Copie impossible : copie l'adresse de la page."))}else done("Copie l'adresse de la page.");break}
+    case "report":{const c=BYID[v];if(!c)break;const txt="Erreur possible sur Questions du permis B ("+location.href.split("#")[0]+")\nQuestion n° "+c.n.join(" / ")+" ("+DECKS[c.d].short+")\n« "+c.q+" »\nRéponse affichée : « "+c.a+" »\nCe qui me semble faux : ";const m=document.getElementById("rptmsg");const done=t=>{if(m)m.textContent=" "+t};if(navigator.share){navigator.share({title:"Signaler une erreur",text:txt}).catch(()=>{})}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>done("Message copié. Colle-le dans un message à la personne qui t'a donné le lien."),()=>done("Copie impossible."))}else done("Copie impossible sur ce navigateur.");break}
     case "reset":if(RESET){S={cards:{},exams:[],resetAt:Date.now()};save();RESET=false}else RESET=true;render();break;
     case "resetcancel":RESET=false;render();break;
     case "roll":roll();break;
@@ -640,6 +652,7 @@ document.addEventListener("click",e=>{
     case "examagain":SES=null;EX.n=null;EX.digits=null;roll();break;
   }
 });
+document.addEventListener("toggle",e=>{const d=e.target;if(d&&d.dataset&&d.dataset.k)DET[d.dataset.k]=d.open},true);
 document.addEventListener("keydown",e=>{
   if(!SES||/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
   if(e.key===" "&&!SES.rev&&SES.i<SES.queue.length){e.preventDefault();SES.rev=true;render()}
@@ -649,7 +662,7 @@ document.addEventListener("keydown",e=>{
 
 function render(){
   tabsEl.innerHTML=TABS.map(t=>'<button class="tab" role="tab" aria-selected="'+(V.tab===t[0])+'" data-act="tab" data-v="'+t[0]+'">'+t[1]+'</button>').join("");
-  app.innerHTML=SES?sesHTML():({accueil:accueilHTML,apprendre:apprHTML,reviser:revHTML,examen:exHTML})[V.tab]();
+  app.innerHTML=SES?sesHTML():({apprendre:apprHTML,reviser:revHTML,examen:exHTML})[V.tab]();
   const r=document.getElementById("reveal");if(r&&SES)r.focus({preventScroll:true});
 }
 render();
